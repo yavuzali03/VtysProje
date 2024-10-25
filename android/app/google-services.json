@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1091642462605",
+    "project_id": "sahada-23",
+    "storage_bucket": "sahada-23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091642462605:android:b96c534ed9a3b7b1362dc4",
+        "android_client_info": {
+          "package_name": "com.vtysproje"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9NxdSRicDs1p2uAyGpxoLF3dD69UM1VM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -15,7 +15,7 @@ export const StackNavigator = () => {
             <stack.Screen
                 name={'home'}
                 component={Homescreen}
-                options={{headerShown: false}}
+                options={{headerShown: false }}
             />
 
             <stack.Screen
@@ -35,6 +35,7 @@ export const StackNavigator = () => {
                 component={SettingsScreen}
                 options={{headerShown: false}}
             />
+
         </stack.Navigator>
     );
 };

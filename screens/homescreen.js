@@ -8,37 +8,20 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Octicons';
-import {BottomBar} from '../components/bottomBar';
 import {SearchBar} from '../components/searchBar';
 
 export const Homescreen = () => {
+
   const navigation = useNavigation();
 
   return (
-    <ScrollView
-      style={{backgroundColor: '#1B212E'}}
-      contentContainerStyle={styles.container}>
+      <View style={{flex : 1 ,backgroundColor : '#1B212E'}}>
+        <SearchBar></SearchBar>
+    <ScrollView>
       <View style={styles.container}>
-        <View
-          style={{
-            width: '90%',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
-            <Icon name={'three-bars'} size={24} color={'#00FF00'}></Icon>
-          </TouchableOpacity>
 
-          <SearchBar></SearchBar>
-
-          <TouchableOpacity>
-            <Icon name={'bell'} size={24} color={'#00FF00'}></Icon>
-          </TouchableOpacity>
-        </View>
-        <ScrollView>
-          <TouchableOpacity>
+          <TouchableOpacity
+              onPress={()=> navigation.navigate()}>
             <View style={styles.borderView}>
               <View style={styles.insideView}>
                 <Image
@@ -111,18 +94,17 @@ export const Homescreen = () => {
               </View>
             </View>
           </TouchableOpacity>
-          
-        </ScrollView>
       </View>
-      <BottomBar></BottomBar>
     </ScrollView>
+      </View>
   );
 };
 const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   borderView: {
@@ -131,6 +113,7 @@ const styles = StyleSheet.create({
     height: width * 0.5,
     borderRadius: 20,
     alignItems: 'center',
+    margin : height*0.02
   },
   insideView: {
     backgroundColor: '#1E2739',
