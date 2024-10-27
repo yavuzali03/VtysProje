@@ -1,18 +1,27 @@
 import {useNavigation} from '@react-navigation/native';
 import {
+  Button,
   Dimensions,
   Image,
   ScrollView,
   StyleSheet,
-  Text,
+  Text, TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {SearchBar} from '../components/searchBar';
+import {useState} from "react";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export const Homescreen = () => {
 
   const navigation = useNavigation();
+
+  const [isPositionPressed, setIsPositionPressed] = useState(false);
+  const [isAgePressed, setIsAgePressed] = useState(false);
+  const [isMarketValuePressed, setIsMarketValuePressed] = useState(false);
+  const [minMarketValue, setMinMarketValue] = useState(0);
+  const [maxMarketValue, setMaxMarketValue] = useState(0);
 
   return (
       <View style={{flex : 1 ,backgroundColor : '#1B212E'}}>
@@ -21,19 +30,51 @@ export const Homescreen = () => {
       <View style={styles.container}>
 
           <TouchableOpacity
-              onPress={()=> navigation.navigate()}>
-            <View style={styles.borderView}>
+              onPress={()=>setIsPositionPressed(!isPositionPressed)}>
+            {isPositionPressed ? (
+                <View style={styles.borderView}>
               <View style={styles.insideView}>
                 <Image
-                  source={require('../assets/football-pitch1.png')}
-                  height={100}
-                  width={100}></Image>
+                    style={{opacity : 0.1 , width : 240 , height : 200}}
+                    source={require('../assets/football-pitch1.png')}
+                    resizeMode={'stretch'}
+                    ></Image>
+                <View style={{position : "absolute",}}>
+
+                  <TouchableOpacity>
+                  <Text style={{color : "white" , fontSize : 25}}>Goalkeeper</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity>
+                  <Text style={{color : "white" , fontSize : 25}}>Right back</Text>
+                  </TouchableOpacity>
+
+                    <TouchableOpacity>
+                  <Text style={{color : "white" , fontSize : 25}}>Left back</Text>
+                   </TouchableOpacity>
+
+                  <TouchableOpacity>
+                  <Text style={{color : "white" , fontSize : 25}}>Stopper</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity>
+                  <Text style={{color : "white" , fontSize : 25}}>Midfielder</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>) :
+                (<View style={styles.borderView}>
+              <View style={styles.insideView}>
+                <Image
+                    source={require('../assets/football-pitch1.png')}
+                    height={100}
+                    width={100}></Image>
                 <Text
-                  style={{color: 'white', fontWeight: 'bold', fontSize: 24}}>
+                    style={{color: 'white', fontWeight: 'bold', fontSize: 24}}>
                   Position*
                 </Text>
               </View>
-            </View>
+            </View>)}
           </TouchableOpacity>
 
           <TouchableOpacity>
@@ -51,19 +92,58 @@ export const Homescreen = () => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity>
-            <View style={styles.borderView}>
+          <TouchableOpacity onPress={()=> setIsMarketValuePressed(!isMarketValuePressed)}>{
+            isMarketValuePressed ? (<View style={styles.borderView}>
+                  <View style={styles.insideView}>
+                    <Image
+                        style={{opacity : 0.1 , width : 240 , height : 200}}
+                        source={require('../assets/value1.png')}
+                        resizeMode={'stretch'}
+                    ></Image>
+                    <View style={{width : 50 , position : "absolute",  justifyContent : "space-around" ,alignItems : "center"}}>
+                      <View style={styles.textInputView}>
+                        <TextInput
+                            style={{ width : 150 , height : 35 , fontWeight : "bold" , fontSize : 20 , padding : 5}}
+                            keyboardType={"numeric"}
+                            value={minMarketValue}
+                            onChangeText={(text)=>setMinMarketValue(text)}
+                            placeholder={"min"}
+                            />
+                        <Icon name={"euro"} color={"#1E2739"} size={24}></Icon>
+                      </View>
+                        <Text style={{color :"white" , fontSize :28}}>to</Text>
+                      <View style={styles.textInputView}>
+                        <TextInput
+                            style={{ width : 150 , height : 35 , fontWeight : "bold" , fontSize : 20 , padding : 5}}
+                            keyboardType={"numeric"}
+                            value={maxMarketValue}
+                            onChangeText={(text)=>setMaxMarketValue(text)}
+                            placeholder={"max"}
+                        />
+                        <Icon name={"euro"} color={"#1E2739"} size={24}></Icon>
+                      </View>
+                      <TouchableOpacity>
+                        <View style={styles.textInput}>
+                          <Text style={{color :"black" , fontSize :24}}>Okey</Text>
+                        </View>
+                        </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>) :
+                (<View style={styles.borderView}>
               <View style={styles.insideView}>
                 <Image
-                  source={require('../assets/value1.png')}
-                  height={100}
-                  width={100}></Image>
+                    source={require('../assets/value1.png')}
+                    height={100}
+                    width={100}></Image>
                 <Text
-                  style={{color: 'white', fontWeight: 'bold', fontSize: 24}}>
+                    style={{color: 'white', fontWeight: 'bold', fontSize: 24}}>
                   Market Value*
                 </Text>
               </View>
-            </View>
+            </View>)
+          }
+
           </TouchableOpacity>
           <TouchableOpacity>
             <View style={styles.borderView}>
@@ -120,7 +200,25 @@ const styles = StyleSheet.create({
     width: width * 0.58,
     height: width * 0.48,
     borderRadius: 20,
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     alignItems: 'center',
   },
+  textInputView : {
+    backgroundColor : "#00FF00" ,
+    width : 200 ,
+    height : 36 ,
+    borderRadius : 18,
+    justifyContent : "center",
+    alignItems : "center",
+    flexDirection : "row",
+  },
+  textInput: {
+    backgroundColor : "#00FF00" ,
+    width : 100 ,
+    height : 40 ,
+    borderRadius : 16 ,
+    justifyContent : "center" ,
+    alignItems : "center" ,
+    marginTop : 16
+  }
 });
