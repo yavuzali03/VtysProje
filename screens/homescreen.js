@@ -37,7 +37,7 @@ export const Homescreen = () => {
                 <View style={styles.borderView}>
               <View style={styles.insideView}>
                 <Image
-                    style={{opacity : 0.1 , width : 240 , height : 200}}
+                    style={{opacity : 0.1 , width : width*0.55 , height : width*0.5}}
                     source={require('../assets/football-pitch1.png')}
                     resizeMode={'stretch'}
                     ></Image>
@@ -83,7 +83,7 @@ export const Homescreen = () => {
             isAgePressed ? (<View style={styles.borderView}>
                     <View style={styles.insideView}>
                       <Image
-                          style={{opacity : 0.1 , width : 240 , height : 200}}
+                          style={{opacity : 0.1 , width : width*0.55 , height : width*0.5}}
                           source={require('../assets/age1.png')}
                           resizeMode={'stretch'}
                       ></Image>
@@ -142,7 +142,7 @@ export const Homescreen = () => {
                 <View style={styles.borderView}>
                   <View style={styles.insideView}>
                     <Image
-                        style={{opacity : 0.1 , width : 240 , height : 200}}
+                        style={{opacity : 0.1 , width : width*0.55 , height : width*0.5}}
                         source={require('../assets/value1.png')}
                         resizeMode={'stretch'}
                     ></Image>
