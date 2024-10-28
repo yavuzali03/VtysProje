@@ -1,11 +1,26 @@
-import {Dimensions, TextInput, View} from "react-native";
+import {Dimensions, TextInput, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/Octicons";
 import {useState} from "react";
+import {useNavigation} from "@react-navigation/native";
 
 export const SearchBar = () => {
     const width = Dimensions.get("window").width;
     const [searchValue, setSearchValue] = useState("");
+    const navigation = useNavigation();
     return (
+    <View
+        style={{
+            width: '100%',
+            height : width*0.16,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            backgroundColor : "#1B212E"
+        }}>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+            <Icon name={'three-bars'} size={24} color={'#00FF00'}></Icon>
+        </TouchableOpacity>
+
         <View style={{width:width*0.7 , height : 40 , backgroundColor:'#1E2739' , borderRadius:15 , justifyContent:'space-evenly',alignItems:'center', flexDirection : "row"}}>
             <TextInput
                 value={searchValue}
@@ -15,5 +30,10 @@ export const SearchBar = () => {
                 style={{width : width*0.55 , height : 35 ,}} ></TextInput>
             <Icon name={"search"} size={20} color={"lightgray"}></Icon>
         </View>
+
+        <TouchableOpacity>
+            <Icon name={'bell'} size={24} color={'#00FF00'}></Icon>
+        </TouchableOpacity>
+    </View>
     )
 }
