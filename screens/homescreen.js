@@ -22,6 +22,8 @@ export const Homescreen = () => {
   const [isMarketValuePressed, setIsMarketValuePressed] = useState(false);
   const [minMarketValue, setMinMarketValue] = useState(0);
   const [maxMarketValue, setMaxMarketValue] = useState(0);
+  const [minAgetValue, setMinAgeValue] = useState(0);
+  const [maxAgetValue, setMaxAgeValue] = useState(0);
 
   return (
       <View style={{flex : 1 ,backgroundColor : '#1B212E'}}>
@@ -77,23 +79,67 @@ export const Homescreen = () => {
             </View>)}
           </TouchableOpacity>
 
-          <TouchableOpacity>
-            <View style={styles.borderView}>
+          <TouchableOpacity onPress={()=>setIsAgePressed(!isAgePressed)}>{
+            isAgePressed ? (<View style={styles.borderView}>
+                    <View style={styles.insideView}>
+                      <Image
+                          style={{opacity : 0.1 , width : 240 , height : 200}}
+                          source={require('../assets/age1.png')}
+                          resizeMode={'stretch'}
+                      ></Image>
+                      <View style={{width : 50 , position : "absolute",  justifyContent : "space-around" ,alignItems : "center"}}>
+                        <View style={{flexDirection : "row"}}>
+                          <View style={[styles.textInputView , {width: 80}]}>
+                            <TextInput
+                                style={{ width : 60 , height : 35 , fontWeight : "bold" , fontSize : 20 , padding : 5 , color : "black"}}
+                                keyboardType={"numeric"}
+                                maxLength={2}
+                                value={minAgetValue}
+                                onChangeText={(text)=>setMinAgeValue(text)}
+                                placeholder={"min"}
+                            />
+                          </View>
+                          <Text style={{color :"white" , fontSize :28}}>-</Text>
+                          <View style={[styles.textInputView ,{width: 80}]}>
+                            <TextInput
+                                style={{ width : 60 , height : 35 , fontWeight : "bold" , fontSize : 20 , padding : 5 , color : "black"}}
+                                keyboardType={"numeric"}
+                                maxLength={2}
+                                value={maxAgetValue}
+                                onChangeText={(text)=>setMaxAgeValue(text)}
+                                placeholder={"max"}
+                            />
+                          </View>
+                        </View>
+
+                        <TouchableOpacity>
+                          <View style={styles.textInput}>
+                            <Text style={{color :"black" , fontSize :24}}>Okey</Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                    </View>
+                ) :
+                (<View style={styles.borderView}>
               <View style={styles.insideView}>
                 <Image
-                  source={require('../assets/age1.png')}
-                  height={100}
-                  width={100}></Image>
+                    source={require('../assets/age1.png')}
+                    height={100}
+                    width={100}></Image>
                 <Text
-                  style={{color: 'white', fontWeight: 'bold', fontSize: 24}}>
+                    style={{color: 'white', fontWeight: 'bold', fontSize: 24}}>
                   Age*
                 </Text>
               </View>
-            </View>
+            </View>)
+          }
+
           </TouchableOpacity>
 
           <TouchableOpacity onPress={()=> setIsMarketValuePressed(!isMarketValuePressed)}>{
-            isMarketValuePressed ? (<View style={styles.borderView}>
+            isMarketValuePressed ? (
+                <View style={styles.borderView}>
                   <View style={styles.insideView}>
                     <Image
                         style={{opacity : 0.1 , width : 240 , height : 200}}
@@ -103,9 +149,10 @@ export const Homescreen = () => {
                     <View style={{width : 50 , position : "absolute",  justifyContent : "space-around" ,alignItems : "center"}}>
                       <View style={styles.textInputView}>
                         <TextInput
-                            style={{ width : 150 , height : 35 , fontWeight : "bold" , fontSize : 20 , padding : 5}}
+                            style={{ width : 150 , height : 35 , fontWeight : "bold" , fontSize : 20 , padding : 5 , color : "black"}}
                             keyboardType={"numeric"}
                             value={minMarketValue}
+                            maxLength={9}
                             onChangeText={(text)=>setMinMarketValue(text)}
                             placeholder={"min"}
                             />
@@ -114,9 +161,10 @@ export const Homescreen = () => {
                         <Text style={{color :"white" , fontSize :28}}>to</Text>
                       <View style={styles.textInputView}>
                         <TextInput
-                            style={{ width : 150 , height : 35 , fontWeight : "bold" , fontSize : 20 , padding : 5}}
+                            style={{ width : 150 , height : 35 , fontWeight : "bold" , fontSize : 20 , padding : 5 , color : "black"}}
                             keyboardType={"numeric"}
                             value={maxMarketValue}
+                            maxLength={9}
                             onChangeText={(text)=>setMaxMarketValue(text)}
                             placeholder={"max"}
                         />
@@ -193,7 +241,7 @@ const styles = StyleSheet.create({
     height: width * 0.5,
     borderRadius: 20,
     alignItems: 'center',
-    margin : height*0.02
+    margin : height*0.02,
   },
   insideView: {
     backgroundColor: '#1E2739',
@@ -205,7 +253,7 @@ const styles = StyleSheet.create({
   },
   textInputView : {
     backgroundColor : "#00FF00" ,
-    width : 200 ,
+    width : width*0.5 ,
     height : 36 ,
     borderRadius : 18,
     justifyContent : "center",
@@ -219,6 +267,6 @@ const styles = StyleSheet.create({
     borderRadius : 16 ,
     justifyContent : "center" ,
     alignItems : "center" ,
-    marginTop : 16
+    marginTop : 16,
   }
 });
