@@ -18,6 +18,7 @@ export const Homescreen = () => {
   const navigation = useNavigation();
 
   const [isPositionPressed, setIsPositionPressed] = useState(false);
+  const [selectedPosition, setSelectedPosition] = useState(null); 
   const [isAgePressed, setIsAgePressed] = useState(false);
   const [isMarketValuePressed, setIsMarketValuePressed] = useState(false);
   const [minMarketValue, setMinMarketValue] = useState(0);
@@ -35,47 +36,93 @@ export const Homescreen = () => {
               onPress={()=>setIsPositionPressed(!isPositionPressed)}>
             {isPositionPressed ? (
                 <View style={styles.borderView}>
-              <View style={styles.insideView}>
-                <Image
-                    style={{opacity : 0.1 , width : width*0.55 , height : width*0.5}}
-                    source={require('../assets/football-pitch1.png')}
-                    resizeMode={'stretch'}
-                    ></Image>
-                <View style={{position : "absolute",}}>
+               <View style={styles.insideView}>
+                  <Image
+                    style={{ opacity: 0.1, width: width * 0.55, height: width * 0.5 }}
+                    source={require("../assets/football-pitch1.png")}
+                    resizeMode={"stretch"}
+                  />
+                  <View style={{ position: "absolute" }}>
+                    <TouchableOpacity onPress={() => setSelectedPosition("Goalkeeper")}>
+                      <Text
+                        style={{
+                          color: selectedPosition === "Goalkeeper" ? "#00FF00" : "white",
+                          fontSize: 25,
+                        }}
+                      >
+                        Goalkeeper
+                      </Text>
+                    </TouchableOpacity>
 
-                  <TouchableOpacity>
-                  <Text style={{color : "white" , fontSize : 25}}>Goalkeeper</Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSelectedPosition("Right back")}>
+                      <Text
+                        style={{
+                          color: selectedPosition === "Right back" ? "#00FF00" : "white",
+                          fontSize: 25,
+                        }}
+                      >
+                        Right back
+                      </Text>
+                    </TouchableOpacity>
 
-                  <TouchableOpacity>
-                  <Text style={{color : "white" , fontSize : 25}}>Right back</Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSelectedPosition("Left back")}>
+                      <Text
+                        style={{
+                          color: selectedPosition === "Left back" ? "#00FF00" : "white",
+                          fontSize: 25,
+                        }}
+                      >
+                        Left back
+                      </Text>
+                    </TouchableOpacity>
 
-                    <TouchableOpacity>
-                  <Text style={{color : "white" , fontSize : 25}}>Left back</Text>
-                   </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSelectedPosition("Stopper")}>
+                      <Text
+                        style={{
+                          color: selectedPosition === "Stopper" ? "#00FF00" : "white",
+                          fontSize: 25,
+                        }}
+                      >
+                        Stopper
+                      </Text>
+                    </TouchableOpacity>
 
-                  <TouchableOpacity>
-                  <Text style={{color : "white" , fontSize : 25}}>Stopper</Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSelectedPosition("Midfielder")}>
+                      <Text
+                        style={{
+                          color: selectedPosition === "Midfielder" ? "#00FF00" : "white",
+                          fontSize: 25,
+                        }}
+                      >
+                        Midfielder
+                      </Text>
+                    </TouchableOpacity>
 
-                  <TouchableOpacity>
-                  <Text style={{color : "white" , fontSize : 25}}>Midfielder</Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSelectedPosition("Forward")}>
+                      <Text
+                        style={{
+                          color: selectedPosition === "Forward" ? "#00FF00" : "white",
+                          fontSize: 25,
+                        }}
+                      >
+                        Forward
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>) :
-                (<View style={styles.borderView}>
-              <View style={styles.insideView}>
-                <Image
-                    source={require('../assets/football-pitch1.png')}
+            ) : (
+              <View style={styles.borderView}>
+                <View style={styles.insideView}>
+                  <Image
+                    source={require("../assets/football-pitch1.png")}
                     height={100}
-                    width={100}></Image>
-                <Text
-                    style={{color: 'white', fontWeight: 'bold', fontSize: 24}}>
-                  Position*
-                </Text>
-              </View>
+                    width={100}
+                  />
+                  <Text style={{ color: "white", fontWeight: "bold", fontSize: 24 }}>
+                    Position*
+                  </Text>
+                </View>
             </View>)}
           </TouchableOpacity>
 
@@ -268,5 +315,8 @@ const styles = StyleSheet.create({
     justifyContent : "center" ,
     alignItems : "center" ,
     marginTop : 16,
-  }
+  },
+  selectedPosition: {
+    backgroundColor: "#00FF00", 
+  },
 });
