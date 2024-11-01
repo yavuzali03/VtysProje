@@ -3,6 +3,8 @@ import {Homescreen} from "../screens/homescreen";
 import {PlayerScreen} from "../screens/playerScreen";
 import {ProfileScreen} from "../screens/profileScreen";
 import {SettingsScreen} from "../screens/settingsScreen";
+import {SearchingResults} from "../screens/searchingResults";
+import {Details} from "../screens/details";
 
 
 export const StackNavigator = () => {
@@ -10,12 +12,24 @@ export const StackNavigator = () => {
     const stack = createStackNavigator();
 
     return (
-        <stack.Navigator initialRouteName={"home"}>
+        <stack.Navigator initialRouteName={"details"}>
+
+            <stack.Screen
+                name={'details'}
+                component={Details}
+                options={{headerShown: false}}
+            />
+
+            <stack.Screen
+                name={'searchingResults'}
+                component={SearchingResults}
+                options={{headerShown: false}}
+            />
 
             <stack.Screen
                 name={'home'}
                 component={Homescreen}
-                options={{headerShown: false }}
+                options={{headerShown: false}}
             />
 
             <stack.Screen

@@ -2,6 +2,7 @@ import {StackNavigator} from "./stackNavigator";
 import Icon from "react-native-vector-icons/Octicons";
 import {View, StyleSheet, Image, Text} from "react-native";
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItem} from "@react-navigation/drawer";
+import {useNavigation} from "@react-navigation/native";
 
 export const DrawerNavigation = () => {
     const Drawer = createDrawerNavigator();
@@ -16,9 +17,13 @@ export const DrawerNavigation = () => {
         >
             <Drawer.Screen name="mainScreen" component={()=> <StackNavigator/>} options={{ headerShown: false }} />
         </Drawer.Navigator>
-    )
-}
+    );
+};
+
+
 const CategoryList = (props) => {
+
+    const navigation = useNavigation();
 
     return(
         <DrawerContentScrollView contentContainerStyle={{flexGrow: 1}}>
@@ -29,7 +34,7 @@ const CategoryList = (props) => {
                 </View>
 
                 <DrawerItem
-
+                    onPress={()=>navigation.navigate("home")}
                     icon={() => <Icon name={"home"} color={"#F4F6F4"} size={32}/>}
                     labelStyle={styles.labelText}
                     label={"Anasayfa"}
