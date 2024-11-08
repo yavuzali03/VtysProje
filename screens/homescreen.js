@@ -29,7 +29,7 @@ export const Homescreen = () => {
 
 
   return (
-      <View style={{flex : 1 ,backgroundColor : '#1B212E'}}>
+   <View style={{flex : 1 ,backgroundColor : '#1B212E'}}>
         <SearchBar></SearchBar>
     <ScrollView>
       <View style={styles.container}>
