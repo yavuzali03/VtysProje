@@ -34,7 +34,7 @@ export const BottomBar = () => {
 
 const styles = StyleSheet.create({
     borderView :{
-        width:'100%' , height:90 , backgroundColor:'#00FF00' , borderTopStartRadius: 20, borderTopEndRadius : 20 , justifyContent:'flex-end', alignItems: 'center',
+        width:'100%' , height:90 , backgroundColor:'#1ef876' , borderTopStartRadius: 20, borderTopEndRadius : 20 , justifyContent:'flex-end', alignItems: 'center',
     },
     insideView : {
         width:'100%' , height : 80 , backgroundColor : "#1E2739", borderTopStartRadius: 20, borderTopEndRadius : 20 , justifyContent:'space-evenly', alignItems: 'center',flexDirection : "row"

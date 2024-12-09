@@ -18,7 +18,7 @@ export const SearchBar = () => {
             backgroundColor : "#1B212E"
         }}>
         <TouchableOpacity onPress={() => navigation.openDrawer()}>
-            <Icon name={'three-bars'} size={24} color={'#00FF00'}></Icon>
+            <Icon name={'three-bars'} size={24} color={'#1ef876'}></Icon>
         </TouchableOpacity>
 
         <View style={{width:width*0.7 , height : 40 , backgroundColor:'#1E2739' , borderRadius:15 , justifyContent:'space-evenly',alignItems:'center', flexDirection : "row"}}>
@@ -32,7 +32,7 @@ export const SearchBar = () => {
         </View>
 
         <TouchableOpacity>
-            <Icon name={'bell'} size={24} color={'#00FF00'}></Icon>
+            <Icon name={'bell'} size={24} color={'#1ef876'}></Icon>
         </TouchableOpacity>
     </View>
     )

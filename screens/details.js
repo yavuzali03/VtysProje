@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     borderView: {
-        backgroundColor: '#00FF00',
+        backgroundColor: '#1ef876',
         width: width * 0.9,
         height: width,
         borderRadius: 20,

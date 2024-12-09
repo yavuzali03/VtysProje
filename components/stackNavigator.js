@@ -13,7 +13,7 @@ export const StackNavigator = () => {
     const stack = createStackNavigator();
 
     return (
-      <stack.Navigator initialRouteName={"details"}>
+      <stack.Navigator initialRouteName={"home"}>
 
 
           <stack.Screen

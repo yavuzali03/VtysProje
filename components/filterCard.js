@@ -37,7 +37,7 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     borderView: {
-        backgroundColor: '#00FF00',
+        backgroundColor: '#1ef876',
         width: width * 0.6,
         height: width * 0.5,
         borderRadius: 20,
