@@ -1,8 +1,12 @@
 import { View, StyleSheet, FlatList, Text } from 'react-native';
 import { SearchBar } from "../components/searchBar";
+import {PlayerCard} from '../components/playerCard';
+import {useNavigation} from '@react-navigation/native';
+
 
 export const SearchingResults = ({ route }) => {
   const { filterResult } = route.params; // "filterResult" parametresi
+  const navigation = useNavigation();
 
   // filterResult'ın boş olup olmadığını kontrol ediyoruz
   if (!filterResult || filterResult.length === 0) {
@@ -13,18 +17,17 @@ export const SearchingResults = ({ route }) => {
     );
   }
 
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#1B212E", alignItems: "center" }}>
+    <View style={{flex: 1, backgroundColor: '#1B212E', alignItems: 'center'}}>
       <SearchBar />
 
       <FlatList
+        showsHorizontalScrollIndicator={false}
         data={filterResult}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={{ width: 200, height: 100, backgroundColor: "red", margin: 10 }}>
-            <Text style={{ color: "white" }}>Ad: {item.name}</Text>
-            <Text style={styles.text}>Pozisyon: {item.position}</Text>
-          </View>
+        keyExtractor={(item) => item.id}
+        renderItem={({item})=>(
+            <PlayerCard name={item.name} club={item.club.name} imageUrl={item.imageURL} marketValue={item.marketValue} id={item.id}></PlayerCard>
         )}
       />
     </View>

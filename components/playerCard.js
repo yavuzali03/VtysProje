@@ -1,34 +1,48 @@
-import {View, StyleSheet, Dimensions, Text, TouchableOpacity} from "react-native";
-import Icon from "react-native-vector-icons/Octicons";
+import {View, StyleSheet, Dimensions, Text, TouchableOpacity, Image} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-export const PlayerCard = () => {
-  return(
-      <View style={styles.borderView}>
-          <TouchableOpacity>
-          <View style={styles.insideView}>
-              {/*Buraya futbolcu resmi gelecek*/}
-              <View style={{height : 100 , width: 80 , backgroundColor :"green" , borderRadius : 16}}></View>
-              <View style={{marginStart : 15}}>
-                  <View style={{flexDirection : "row" , justifyContent : "center" , alignItems : "center"}}>
-                      <Text style={styles.playerName}>Futbolcu adı</Text>
-                      <Icon name={"file-directory"} color={"red"} size={24} style={{marginStart : 15}}></Icon>
-                  </View>
-                  <Text style={styles.playerClub}>Kulüp adı</Text>
-              </View>
-          </View>
-          <View style={styles.price}>
-              <Text style={[styles.playerName ,{color: "black"}]}>130 mil. €</Text>
-          </View>
-          </TouchableOpacity>
-      </View>
+export const PlayerCard = ({id,name, club , marketValue , imageUrl}) => {
 
+    const width = Dimensions.get("window").width;
+    const navigation = useNavigation();
+  return (
+    <View style={styles.borderView}>
+      <TouchableOpacity onPress={()=>navigation.navigate("details",{id : id})}>
+        <View style={styles.insideView}>
+
+              <Image source={{ uri: imageUrl }} style={{
+                  height: width*0.26,
+                  width: width*0.2,
+                  backgroundColor: 'gray',
+                  borderRadius: 16,}}></Image>
+
+          <View style={{marginStart: 15}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text style={styles.playerName}>{name}</Text>
+
+            </View>
+            <Text style={styles.playerClub}>{club}</Text>
+          </View>
+        </View>
+
+        <View style={[styles.price,{display : marketValue ? "hidden" : "none"}]}>
+          <Text style={[styles.playerName, {color: 'black', fontSize: 20}]}>{marketValue}</Text>
+        </View>
+
+      </TouchableOpacity>
+    </View>
   );
 };
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     borderView: {
-        backgroundColor: '#00FF00',
+        backgroundColor: '#1ef876',
         width: width * 0.9,
         height: width * 0.3,
         borderRadius: 20,
@@ -43,7 +57,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         flexDirection : "row",
-        paddingStart : 15
+        paddingStart : 5,
     },
     playerName : {
         color: 'white', fontWeight: 'bold', fontSize: 24,
@@ -52,17 +66,17 @@ const styles = StyleSheet.create({
         color: 'white', fontWeight: 'normal', fontSize: 18,
     },
     price : {
-        backgroundColor: '#00FF00',
-        width : 153 ,
-        height : 39 ,
+        backgroundColor: '#1ef876',
+        width : width*0.3 ,
+        height : width*0.11 ,
         elevation : 15 ,
         borderRadius : 12 ,
         position : "absolute" ,
-        top : -10 ,
-        right: -10 ,
+        top : -12 ,
+        right: -12 ,
         justifyContent : "center" ,
         alignItems : "center",
         borderWidth : 3,
-        borderColor : "#00cc00"
+        borderColor : "#18c65e"
     },
 });
