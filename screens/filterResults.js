@@ -4,10 +4,13 @@ import {PlayerCard} from '../components/playerCard';
 import {useNavigation} from '@react-navigation/native';
 
 
-export const SearchingResults = ({ route }) => {
+export const FilterResults = ({ route }) => {
   const { filterResult } = route.params; // "filterResult" parametresi
-  const navigation = useNavigation();
 
+  const filterResultArray = Object.values(filterResult);
+
+  const navigation = useNavigation();
+  console.log("arama sonuçları : ",filterResult[0].profile);
   // filterResult'ın boş olup olmadığını kontrol ediyoruz
   if (!filterResult || filterResult.length === 0) {
     return (
@@ -24,10 +27,10 @@ export const SearchingResults = ({ route }) => {
 
       <FlatList
         showsHorizontalScrollIndicator={false}
-        data={filterResult}
-        keyExtractor={(item) => item.id}
+        data={filterResultArray.slice(0,20)}
+        keyExtractor={(item) => item.profile.id}
         renderItem={({item})=>(
-            <PlayerCard name={item.name} club={item.club.name} imageUrl={item.imageURL} marketValue={item.marketValue} id={item.id}></PlayerCard>
+            <PlayerCard name={item.profile.name} club={item.profile.club.name} imageUrl={item.profile.imageURL} marketValue={item.market_value.marketValue} id={item.profile.id}></PlayerCard>
         )}
       />
     </View>

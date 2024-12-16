@@ -5,8 +5,16 @@ import {useNavigation} from "@react-navigation/native";
 
 export const SearchBar = () => {
     const width = Dimensions.get("window").width;
+
     const [searchValue, setSearchValue] = useState("");
     const navigation = useNavigation();
+
+    console.log(searchValue);
+
+    const search = ()=> {
+      navigation.navigate("searchResults",{searchValue : searchValue})
+      setSearchValue("");
+  }
     return (
     <View
         style={{
@@ -27,8 +35,13 @@ export const SearchBar = () => {
                 onChangeText={setSearchValue}
                 placeholder={"Oyuncu ara"}
                 placeholderTextColor="lightgray"
+                returnKeyType={"search"}
+                selectionHandleColor={"#1E2739"}
+                onSubmitEditing={search}
                 style={{width : width*0.55 , height : 35 ,}} ></TextInput>
+          <TouchableOpacity onPress={search}>
             <Icon name={"search"} size={20} color={"lightgray"}></Icon>
+          </TouchableOpacity>
         </View>
 
         <TouchableOpacity>

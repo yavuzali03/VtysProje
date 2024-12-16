@@ -64,6 +64,8 @@ export const Details = ({route}) => {
     fetchData();
   }, []);
 
+  console.log("detaylar : ",playerData);
+
   if (loading) {
     return <LoadingScreen />;
   }
@@ -96,22 +98,16 @@ export const Details = ({route}) => {
               backgroundColor: 'gray',
               borderRadius: 16,
             }}></Image>
-          <View style={{marginStart: 15}}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
+          <View style={{flex : 1,marginStart: 15,flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
               <Text style={styles.playerName}>{playerData.profile.name}</Text>
-            </View>
+              <Text style={styles.playerName}>{playerData.profile.shirtNumber}</Text>
           </View>
         </LinearGradient>
 
         <View style={[styles.borderView, {height: width * 0.3}]}>
           <View style={[styles.insideView, {height: width * 0.285}]}>
             <Text style={{fontSize: 50, color: 'white', fontWeight: 'bold'}}>
-              {playerData.profile.marketValue}
+              {playerData.market_value.marketValue}
             </Text>
           </View>
         </View>
@@ -210,7 +206,8 @@ const styles = StyleSheet.create({
   playerName: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: width*0.07,
+    maxWidth: width*0.4,
   },
   borderView: {
     backgroundColor: '#1ef876',

@@ -34,7 +34,7 @@ const CategoryList = (props) => {
                 </View>
 
                 <DrawerItem
-                    onPress={()=>navigation.navigate("home")}
+
                     icon={() => <Icon name={"home"} color={"#F4F6F4"} size={32}/>}
                     labelStyle={styles.labelText}
                     label={"Anasayfa"}
@@ -42,10 +42,10 @@ const CategoryList = (props) => {
                 />
 
                 <DrawerItem
-
+                    onPress={()=>navigation.navigate("filterScreen")}
                     icon={() => <Image source={require("../assets/futbolcu.png")} width={36} height={36}></Image>}
                     labelStyle={styles.labelText}
-                    label={"Transfer ara"}
+                    label={"Futbolcu ara"}
 
                 />
 

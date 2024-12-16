@@ -17,7 +17,7 @@ import LoadingScreen from './loadingScreen';
 import {enableExperimentalWebImplementation} from 'react-native-gesture-handler';
 
 
-export const Homescreen = () => {
+export const FilterScreen = () => {
 
   const navigation = useNavigation();
   const [loading , setLoading] = useState(false);
@@ -40,7 +40,8 @@ export const Homescreen = () => {
 
   const [selectedFoot, setSelectedFoot] = useState(null);
 
-  const [filterResult, setFilterResult] = useState([]);
+  const [filterResult, setFilterResult] = useState(null);
+  const dizi = [];
 
 
   const nationality = [
@@ -132,14 +133,16 @@ export const Homescreen = () => {
     {
     Alert.alert("Uyarı","Lütfen bir seçim yapınız.",[{text : "tamam"}]);
    }else {
+      setLoading(true);
     fetchApiData(baseUrl,params);
     }
   };
 
   useEffect(() => {
-    console.log('API Data güncellendi:', filterResult);
-    if (filterResult.length > 0) {
-      navigation.navigate("searchingResults",{filterResult : filterResult});
+    console.log("veri tipi : " ,typeof (dizi));
+    if (filterResult !== null) {
+      navigation.navigate("filterResults",{filterResult : filterResult});
+      setFilterResult(null);
       setSelectedPosition(null);
       setSelectedFoot(null);
       setSelectedNationality(null);
@@ -147,10 +150,15 @@ export const Homescreen = () => {
       setMaxAgeValue(0);
       setMinMarketValue(0);
       setMaxMarketValue(0);
+      setLoading(false);
     }
   }, [filterResult]);
 
-
+  if (loading){
+    return(
+      <LoadingScreen/>
+    )
+  }
 
 
   return (
@@ -174,7 +182,7 @@ export const Homescreen = () => {
               maxHeight={300}
               labelField="label"
               valueField="value"
-              placeholder="Select item"
+              placeholder="Pozisyon seçin"
               value={selectedPosition}
               onChange={item => {
                 setSelectedPosition(item.value);
@@ -317,8 +325,8 @@ export const Homescreen = () => {
               maxHeight={300}
               labelField="label"
               valueField="value"
-              placeholder="Select item"
-              searchPlaceholder="Search..."
+              placeholder="Ülke seçin"
+              searchPlaceholder="Ülke ara"
               value={selectedNationality}
               onChange={item => {
                 setSelectedNationality(item.value);
@@ -346,7 +354,7 @@ export const Homescreen = () => {
               maxHeight={300}
               labelField="label"
               valueField="value"
-              placeholder="Select item"
+              placeholder="Tercih edilen ayak"
               value={selectedFoot}
               onChange={item => {
                 setSelectedFoot(item.value);
