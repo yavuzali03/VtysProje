@@ -13,7 +13,7 @@ export const PlayerCard = ({id,name, club , marketValue , imageUrl}) => {
               <Image source={{ uri: imageUrl }} style={{
                   height: width*0.26,
                   width: width*0.2,
-                  backgroundColor: 'gray',
+                  backgroundColor: 'white',
                   borderRadius: 16,}}></Image>
 
           <View style={{marginStart: 15}}>

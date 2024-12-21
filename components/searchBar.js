@@ -1,4 +1,4 @@
-import {Dimensions, TextInput, TouchableOpacity, View} from "react-native";
+import {Alert, Dimensions, TextInput, TouchableOpacity, View} from 'react-native';
 import Icon from "react-native-vector-icons/Octicons";
 import {useState} from "react";
 import {useNavigation} from "@react-navigation/native";
@@ -9,12 +9,15 @@ export const SearchBar = () => {
     const [searchValue, setSearchValue] = useState("");
     const navigation = useNavigation();
 
-    console.log(searchValue);
 
     const search = ()=> {
-      navigation.navigate("searchResults",{searchValue : searchValue})
-      setSearchValue("");
-  }
+      if (searchValue === "") {
+        Alert.alert("Uyarı","Lütfen geçerli bir değer giriniz.",[{text : "tamam"}]);
+      }else {
+        navigation.navigate("searchResults",{searchValue : searchValue})
+        setSearchValue("");
+      }
+  };
     return (
     <View
         style={{

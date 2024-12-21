@@ -15,6 +15,9 @@ import {FilterCard} from "../components/filterCard";
 import {Dropdown} from 'react-native-element-dropdown';
 import LoadingScreen from './loadingScreen';
 import {enableExperimentalWebImplementation} from 'react-native-gesture-handler';
+import {PositionValue} from '../data/positionValue';
+import {FootValue} from '../data/footValue';
+import {CountryValue} from '../data/countryValue';
 
 
 export const FilterScreen = () => {
@@ -41,40 +44,12 @@ export const FilterScreen = () => {
   const [selectedFoot, setSelectedFoot] = useState(null);
 
   const [filterResult, setFilterResult] = useState(null);
-  const dizi = [];
 
 
-  const nationality = [
-    { label: 'Türkiye', value: 'Türkiye' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
-  ];
+  const nationality = new CountryValue().country;
 
-  const positions = [
-    { label: 'Kaleci', value: 'Goalkeeper' },
-    { label: 'Stoper', value: 'Centre-Back' },
-    { label: 'Sağ Bek', value: 'Right-Back' },
-    { label: 'Sol Bek', value: 'Left-Back' },
-    { label: 'Defansif Orta Saha', value: 'Defensive Midfield' },
-    { label: 'Merkezi Orta Saha', value: 'Central Midfield' },
-    { label: 'Hücumcu Orta Saha', value: 'Attacking Midfield' },
-    { label: 'Sol Orta Saha', value: 'Left Midfield' },
-    { label: 'Sağ Orta Saha', value: 'Right Midfield' },
-    { label: 'Sol Kanat', value: 'Left Winger' },
-    { label: 'Sağ Kanat', value: 'Right Winger' },
-    { label: 'Merkez Forvet', value: 'Centre-Forward' },
-    { label: 'Gizli Forvet', value: 'Second Striker' },
-  ];
-
-  const foot = [
-    { label: 'Sağ', value: 'right' },
-    { label: 'Sol', value: 'left' },
-  ];
+  const positions = new PositionValue().positions;
+  const foot = new FootValue().foot;
 
 
   console.log("pozisyon = "+selectedPosition);
@@ -139,7 +114,6 @@ export const FilterScreen = () => {
   };
 
   useEffect(() => {
-    console.log("veri tipi : " ,typeof (dizi));
     if (filterResult !== null) {
       navigation.navigate("filterResults",{filterResult : filterResult});
       setFilterResult(null);
@@ -365,14 +339,16 @@ export const FilterScreen = () => {
             />
           </FilterCard>
 
-          <TouchableOpacity
-            onPress={()=>filtrele()}>
-            <View style={styles.insideView}>
-              <Text style={styles.text}>FİLTRELE</Text>
-            </View>
-          </TouchableOpacity>
         </View>
       </ScrollView>
+      <View style={{justifyContent: 'center', alignItems: 'center' , width: '100%' ,  height : width*0.22}}>
+        <TouchableOpacity
+          onPress={()=>filtrele()}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>FİLTRELE</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -383,6 +359,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#1E2739',
+    width: width * 0.68,
+    height: width * 0.18,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth : width*0.012,
+    borderColor : "#1ef876",
+    margin : width*0.05,
+  },
+  buttonText: {
+    color : "white",
+    fontSize: 24,
+    fontWeight: 'bold',
   },
   insideView: {
     backgroundColor: '#1E2739',

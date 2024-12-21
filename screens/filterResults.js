@@ -10,7 +10,6 @@ export const FilterResults = ({ route }) => {
   const filterResultArray = Object.values(filterResult);
 
   const navigation = useNavigation();
-  console.log("arama sonuçları : ",filterResult[0].profile);
   // filterResult'ın boş olup olmadığını kontrol ediyoruz
   if (!filterResult || filterResult.length === 0) {
     return (

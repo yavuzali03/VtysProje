@@ -14,8 +14,6 @@ export const SearchResults = ({route }) => {
 
   const [playersData, setPlayersData] = useState(null);
 
-  console.log("arama verisi : "+searchValue);
-  console.log("arama verisi : ",playersData);
   useEffect(() => {
     setLoading(true);
     const fetchData = async () => {

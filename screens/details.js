@@ -4,48 +4,24 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  Text,
+  Text, Touchable, TouchableOpacity,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {SearchBar} from '../components/searchBar';
 import LoadingScreen from './loadingScreen';
+import {PositionValue} from '../data/positionValue';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import {Stats} from '../components/stats';
 
 export const Details = ({route}) => {
   const {id} = route.params;
   const [playerData, setPlayerData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isDetailsPressed , setIsDetailsPressed] = useState(false);
 
-  const positions = [
-    {label: 'Kaleci', value: 'Goalkeeper'},
-    {label: 'Stoper', value: 'Centre-Back'},
-    {label: 'Sağ Bek', value: 'Right-Back'},
-    {label: 'Sol Bek', value: 'Left-Back'},
-    {label: 'Defansif Orta Saha', value: 'Defensive Midfield'},
-    {label: 'Merkezi Orta Saha', value: 'Central Midfield'},
-    {label: 'Hücumcu Orta Saha', value: 'Attacking Midfield'},
-    {label: 'Sol Orta Saha', value: 'Left Midfield'},
-    {label: 'Sağ Orta Saha', value: 'Right Midfield'},
-    {label: 'Sol Kanat', value: 'Left Winger'},
-    {label: 'Sağ Kanat', value: 'Right Winger'},
-    {label: 'Merkez Forvet', value: 'Centre-Forward'},
-    {label: 'Gizli Forvet', value: 'Second Striker'},
-  ];
+  const positions = new PositionValue().positions;
 
-  const months = [
-    {label: 'Ocak', value: 'Jan'},
-    {label: 'Şubat', value: 'Feb'},
-    {label: 'Mart', value: 'Mar'},
-    {label: 'Nisan', value: 'Apr'},
-    {label: 'Mayıs', value: 'May'},
-    {label: 'Haziran', value: 'Jun'},
-    {label: 'Temmuz', value: 'Jul'},
-    {label: 'Ağustos', value: 'Aug'},
-    {label: 'Eylül', value: 'Sep'},
-    {label: 'Ekim', value: 'Oct'},
-    {label: 'Kasım', value: 'Nov'},
-    {label: 'Aralık', value: 'Dec'},
-  ];
 
   useEffect(() => {
     setLoading(true);
@@ -64,7 +40,6 @@ export const Details = ({route}) => {
     fetchData();
   }, []);
 
-  console.log("detaylar : ",playerData);
 
   if (loading) {
     return <LoadingScreen />;
@@ -76,7 +51,7 @@ export const Details = ({route}) => {
   const foot = playerData.profile.foot === 'right' ? 'sağ' : 'sol';
 
   return (
-    <ScrollView style={{backgroundColor: '#1B212E'}}>
+    <ScrollView style={{flex : 1 ,backgroundColor: '#1B212E'}}>
       <View
         style={{
           flex: 1,
@@ -98,11 +73,34 @@ export const Details = ({route}) => {
               backgroundColor: 'gray',
               borderRadius: 16,
             }}></Image>
-          <View style={{flex : 1,marginStart: 15,flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-              <Text style={styles.playerName}>{playerData.profile.name}</Text>
-              <Text style={styles.playerName}>{playerData.profile.shirtNumber}</Text>
+          <View
+            style={{
+              flex: 1,
+              marginStart: 15,
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+            }}>
+            <Text style={styles.playerName}>{playerData.profile.name}</Text>
+          </View>
+          <View
+            style={{
+              position: 'absolute',
+              width: width * 0.2,
+              height: width * 0.2,
+              backgroundColor: '#15ae53',
+              right: -10,
+              borderRadius: 16,
+              justifyContent: 'center',
+              alignItems: 'center',
+              elevation: 10,
+            }}>
+            <Text style={styles.shirtNumber}>
+              {playerData.profile.shirtNumber}
+            </Text>
           </View>
         </LinearGradient>
+
 
         <View style={[styles.borderView, {height: width * 0.3}]}>
           <View style={[styles.insideView, {height: width * 0.285}]}>
@@ -187,6 +185,12 @@ export const Details = ({route}) => {
             </View>
           </View>
         </View>
+
+        <TouchableOpacity style={{flexDirection : "row",justifyContent : "center" , alignItems : "center" , width : width*0.4, marginBottom : 20}} onPress={() => setIsDetailsPressed(!isDetailsPressed)}>
+          <Text style={{color : "white" , fontSize : width*0.05,paddingRight : 5}}>{isDetailsPressed ? "İstatistikleri gizle" : "İstatistikleri göster"}</Text>
+          <Icon name={isDetailsPressed ? "angle-up" : "angle-down"} color={"white"} size={20}></Icon>
+        </TouchableOpacity>
+        <Stats display={isDetailsPressed} stats={playerData.stats.stats}></Stats>
       </View>
     </ScrollView>
   );
@@ -208,6 +212,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: width*0.07,
     maxWidth: width*0.4,
+  },
+  shirtNumber :{
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: width*0.08,
+    maxWidth: width*0.4
   },
   borderView: {
     backgroundColor: '#1ef876',
