@@ -190,7 +190,7 @@ export const Details = ({route}) => {
           <Text style={{color : "white" , fontSize : width*0.05,paddingRight : 5}}>{isDetailsPressed ? "İstatistikleri gizle" : "İstatistikleri göster"}</Text>
           <Icon name={isDetailsPressed ? "angle-up" : "angle-down"} color={"white"} size={20}></Icon>
         </TouchableOpacity>
-        <Stats display={isDetailsPressed} stats={playerData.stats.stats}></Stats>
+        <Stats display={isDetailsPressed} stats={playerData.stats.stats} marketHistory={playerData.market_value.marketValueHistory}></Stats>
       </View>
     </ScrollView>
   );

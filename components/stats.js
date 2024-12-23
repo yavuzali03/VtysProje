@@ -3,10 +3,10 @@ import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import { useState } from "react";
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {Dropdown} from 'react-native-element-dropdown';
+import { LineChart } from "react-native-gifted-charts";
 
 
-
-export const Stats = ({ stats, display }) => {
+export const Stats = ({ stats, display, marketHistory }) => {
 
   const [season, setSeason] = useState("24/25");
 
@@ -100,76 +100,10 @@ export const Stats = ({ stats, display }) => {
           </View>
         )}
       />
-      {/*
-      <View
-        style={{
-          width: '100%',
-          backgroundColor: '#151b28',
-          flexDirection: 'row',
-          paddingTop : width*0.03,
-          paddingBottom : width*0.03,
-          paddingLeft : width*0.01,
-          borderRadius: width*0.02,
-          marginBottom : width*0.03,
-        }}>
-        <Text style={{color: "white", width: '30%', textAlign: 'left'}}>Toplam</Text>
-        <Icon name="house-chimney" size={16} color="white" style={{width: '10%', textAlign: 'center'}} />
-        <Icon name="shirt" size={16} color="white" style={{width: '10%', textAlign: 'center'}} />
-        <Icon name="futbol" size={16} color="white" style={{width: '10%', textAlign: 'center'}} />
-        <Icon name="handshake" size={16} color="white" style={{width: '10%', textAlign: 'center'}} />
-        <Icon name="stop" size={16} color="yellow" style={{width: '10%', textAlign: 'center'}} />
-        <Icon name="stop" size={16} color="red" style={{width: '10%', textAlign: 'center'}} />
-        <Icon name="clock" size={16} color="white" style={{width: '10%', textAlign: 'center' }} />
-      </View>
-      */}
 
     </View>
   );
 
-
-  const totalsBySeason = stats.reduce((seasons, { seasonID, clubID, appearances = 0, goals = 0, assists = 0, yellowCards = 0, minutesPlayed = "0'" }) => {
-    if (!seasons[seasonID]) {
-      seasons[seasonID] = {}; // Yeni sezon için bir nesne oluşturuluyor
-    }
-    if (!seasons[seasonID][clubID]) {
-      seasons[seasonID][clubID] = {
-        clubID,
-        appearances: 0,
-        goals: 0,
-        assists: 0,
-        yellowCards: 0,
-        minutesPlayed: 0,
-      };
-    }
-    seasons[seasonID][clubID].appearances += parseInt(appearances);
-    seasons[seasonID][clubID].goals += parseInt(goals);
-    seasons[seasonID][clubID].assists += parseInt(assists);
-    seasons[seasonID][clubID].yellowCards += parseInt(yellowCards);
-    seasons[seasonID][clubID].minutesPlayed += parseInt(minutesPlayed.replace("'", ""));
-    return seasons;
-  }, {});
-
-  const seasonsData = Object.entries(totalsBySeason).map(([seasonID, clubs]) => ({
-    season: seasonID,
-    clubs: Object.entries(clubs).map(([clubID, clubStats]) => ({
-      clubID,
-      stats: clubStats,
-    })),
-  }));
-
-
-
-  const clubsData = seasonsData.flatMap((item) =>
-    item.clubs.map((club) => ({
-      season: item.season,
-      ...club,
-    }))
-  );
-
-// Appearances değerine göre sırala
-  clubsData.sort((a, b) => b.appearances - a.appearances);
-
-  console.log("sezon bilgileri ",stats);
   const SecondRoute = () => (
     <View style={styles.routeContainer}>
       <View
@@ -195,7 +129,6 @@ export const Stats = ({ stats, display }) => {
       </View>
 
       <FlatList
-
         nestedScrollEnabled={true}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -250,23 +183,148 @@ export const Stats = ({ stats, display }) => {
 
     </View>
   );
-  const ThirthRoute = () => (
-    <View style={styles.routeContainer}>
-      <Text style={styles.text}>Second Route</Text>
-    </View>
-  );
+
+  const ThirthRoute = () => {
+
+    function convertToNumber(value) {
+      // Eğer 'm' varsa, değeri milyon cinsinden çeviririz
+      if (value.includes('m')) {
+        return parseFloat(value.replace('€', '').replace('m', '').trim()) * 1000000;
+      }
+      // Eğer 'k' varsa, değeri bin cinsinden çeviririz
+      if (value.includes('k')) {
+        return parseFloat(value.replace('€', '').replace('k', '').trim()) * 1000;
+      }
+      // Eğer başka bir format varsa, değeri olduğu gibi alırız
+      return parseFloat(value.replace('€', '').trim());
+    }
+
+    const dataPoint = ()=>{
+      return (
+        <View style={{
+          backgroundColor : "#1ef876",
+          width : 8 ,
+          height : 8 ,
+          borderRadius : 5,
+          marginBottom : 2,
+          }}>
+        </View>
+      );
+    };
+
+    const customLabel = (item) => {
+      return (
+        <View style={{width: 70, marginLeft: 7}}>
+          <Text style={{color: 'white', fontWeight: 'bold'}}>{item}</Text>
+        </View>
+      );
+    };
+
+    const data = marketHistory.map((item) => ({
+      value: convertToNumber(item.value),
+      date : item.date,
+      clubId : item.clubID,
+      labelValue : item.value,
+      hideDataPoint : false,
+      customDataPoint : dataPoint,
+      labelComponent: () => customLabel(item.date),
+
+    }));
+
+    const maxValue = Math.max(...data.map(item => item.value));
+    const chartMaxValue = maxValue * 1.2;
+
+
+
+    console.log(data);
+
+    return(
+      <View
+        style={{
+          paddingVertical: 100,
+          paddingLeft: 20,
+          backgroundColor: "#151b28",
+        }}>
+
+        <LineChart
+          areaChart
+          data={data}
+          curved
+          rotateLabel
+          width={300}
+          spacing={30}
+          color="#00ff83"
+          thickness={2}
+          startFillColor="rgba(20,105,81,0.3)"
+          endFillColor="rgba(20,85,81,0.01)"
+          startOpacity={0.9}
+          endOpacity={0.2}
+          initialSpacing={0}
+          noOfSections={6}
+          maxValue={chartMaxValue}
+          yAxisColor="white"
+          yAxisThickness={0}
+          rulesType="solid"
+          rulesColor="gray"
+          yAxisTextStyle={{color: 'gray'}}
+          yAxisSide='right'
+          xAxisColor="lightgray"
+          pointerConfig={{
+            pointerStripHeight: 160,
+            pointerStripColor: 'lightgray',
+            pointerStripWidth: 2,
+            pointerColor: 'lightgray',
+            radius: 6,
+            pointerLabelWidth: 100,
+            pointerLabelHeight: 90,
+            activatePointersOnLongPress: true,
+            autoAdjustPointerLabelPosition: false,
+            pointerLabelComponent: items => {
+
+
+              return (
+                <View
+                  style={{
+                    height: 120,
+                    width: 100,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding : 5,
+                    backgroundColor: 'white',
+                    borderRadius: 10,
+                    marginBottom : 60,
+                  }}>
+                  <Image source={{uri : `https://tmssl.akamaized.net//images/wappen/head/${items[0].clubId}.png`}} resizeMode={"contain"}  style={{width : 50 , height : 50,borderRadius : width*0.015}}></Image>
+                  <Text style={{color: 'black', fontSize: 14,textAlign:'center'}}>
+                    {items[0].date}
+                  </Text>
+
+                  <View style={{paddingHorizontal:14,paddingVertical:6,}}>
+                    <Text style={{fontWeight: 'bold',textAlign:'center', color : "black", fontSize : 18}}>
+                      {items[0].labelValue}
+                    </Text>
+                  </View>
+                </View>
+              );
+            },
+          }}
+        />
+        </View>
+          );
+
+  };
 
   // SceneMap: Route'ları eşleştirir
   const renderScene = SceneMap({
     first: SezonlukToplam,
     second: SecondRoute,
-    third : ThirthRoute,
+    thirt : ThirthRoute,
   });
 
   const routes = [
     { key: "first", title: "Sezon" },
     { key: "second", title: "Kariyer" },
-    { key: "third", title: "boş" },
+    { key: "thirt", title: "Piyasa Değeri" },
   ];
 
   const layout = useWindowDimensions();

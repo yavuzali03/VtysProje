@@ -142,7 +142,7 @@ export class CountryValue {
     { label: 'Zambiya', value: 'Zambia' },
     { label: 'El Salvador', value: 'El Salvador' },
     { label: 'Suudi Arabistan', value: 'Saudi Arabia' },
-    { label: 'Bolivya', value: 'Bolivia' }
+    { label: 'Bolivya', value: 'Bolivia' },
   ];
 
 }
