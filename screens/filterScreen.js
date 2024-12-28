@@ -52,15 +52,6 @@ export const FilterScreen = () => {
   const foot = new FootValue().foot;
 
 
-  console.log("pozisyon = "+selectedPosition);
-  console.log("min yaş = "+minAgeValue);
-  console.log("max yaş = "+maxAgeValue);
-  console.log("min market = "+minMarketValue);
-  console.log("max market = "+maxMarketValue);
-  console.log("ülke = "+selectedNationality);
-  console.log("ayak = "+selectedFoot);
-
-
   const baseUrl = 'http://44.195.206.105/players/by_filters';
 
   const params = {

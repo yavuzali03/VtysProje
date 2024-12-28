@@ -104,7 +104,7 @@ export const Stats = ({ stats, display, marketHistory }) => {
     </View>
   );
 
-  const SecondRoute = () => (
+  const KariyerIstatistikleri = () => (
     <View style={styles.routeContainer}>
       <View
         style={{
@@ -184,7 +184,7 @@ export const Stats = ({ stats, display, marketHistory }) => {
     </View>
   );
 
-  const ThirthRoute = () => {
+  const MarketDeğeri = () => {
 
     function convertToNumber(value) {
       // Eğer 'm' varsa, değeri milyon cinsinden çeviririz
@@ -206,7 +206,7 @@ export const Stats = ({ stats, display, marketHistory }) => {
           width : 8 ,
           height : 8 ,
           borderRadius : 5,
-          marginBottom : 2,
+          marginBottom : 3,
           }}>
         </View>
       );
@@ -214,8 +214,8 @@ export const Stats = ({ stats, display, marketHistory }) => {
 
     const customLabel = (item) => {
       return (
-        <View style={{width: 70, marginLeft: 7}}>
-          <Text style={{color: 'white', fontWeight: 'bold'}}>{item}</Text>
+        <View style={{width: 100, marginLeft: 10}}>
+          <Text style={{color: 'white', fontWeight: 'normal' , fontSize : 10}}>{item}</Text>
         </View>
       );
     };
@@ -233,25 +233,30 @@ export const Stats = ({ stats, display, marketHistory }) => {
 
     const maxValue = Math.max(...data.map(item => item.value));
     const chartMaxValue = maxValue * 1.2;
+    const [pointData , setPointData] = useState([]);
 
-
-
-    console.log(data);
-
+    console.log(pointData);
     return(
       <View
-        style={{
-          paddingVertical: 100,
-          paddingLeft: 20,
-          backgroundColor: "#151b28",
-        }}>
+        style={styles.routeContainer }>
+
+        <View style={{ marginTop : 15, marginBottom : 15,flexDirection : "row",backgroundColor : "white" , width : width*0.4 , height : width*0.2 , borderRadius : width*0.05 , justifyContent : "center" , alignItems: "center"}}>
+          <Image source={{uri : `https://tmssl.akamaized.net//images/wappen/head/${pointData.clubId}.png`}} resizeMode={"contain"}  style={{width : 50 , height : 50}}></Image>
+
+          <View>
+            <Text style={{color: 'black', fontSize: 14,textAlign:'center'}}>{pointData.date}</Text>
+
+            <Text style={{fontWeight: 'bold',textAlign:'center', color : "black", fontSize : 18}}>{pointData.labelValue}</Text>
+          </View>
+
+        </View>
 
         <LineChart
           areaChart
-          data={data}
           curved
+          data={data}
           rotateLabel
-          width={300}
+          width={width*0.7}
           spacing={30}
           color="#00ff83"
           thickness={2}
@@ -259,7 +264,7 @@ export const Stats = ({ stats, display, marketHistory }) => {
           endFillColor="rgba(20,85,81,0.01)"
           startOpacity={0.9}
           endOpacity={0.2}
-          initialSpacing={0}
+          initialSpacing={10}
           noOfSections={6}
           maxValue={chartMaxValue}
           yAxisColor="white"
@@ -269,43 +274,28 @@ export const Stats = ({ stats, display, marketHistory }) => {
           yAxisTextStyle={{color: 'gray'}}
           yAxisSide='right'
           xAxisColor="lightgray"
+          formatYLabel={(value) => {
+            if (value >= 1000000) {
+              return `${(value / 1000000).toFixed(1)}M`;
+            } else if (value >= 1000) {
+              return `${(value / 1000).toFixed(1)}K`;
+            } else {
+              return value.toString();
+            }
+          }}
           pointerConfig={{
-            pointerStripHeight: 160,
-            pointerStripColor: 'lightgray',
-            pointerStripWidth: 2,
-            pointerColor: 'lightgray',
+            showPointerStrip: false,
+            pointerColor: '#ffffff',
             radius: 6,
             pointerLabelWidth: 100,
             pointerLabelHeight: 90,
             activatePointersOnLongPress: true,
             autoAdjustPointerLabelPosition: false,
             pointerLabelComponent: items => {
-
-
-              return (
-                <View
-                  style={{
-                    height: 120,
-                    width: 100,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding : 5,
-                    backgroundColor: 'white',
-                    borderRadius: 10,
-                    marginBottom : 60,
-                  }}>
-                  <Image source={{uri : `https://tmssl.akamaized.net//images/wappen/head/${items[0].clubId}.png`}} resizeMode={"contain"}  style={{width : 50 , height : 50,borderRadius : width*0.015}}></Image>
-                  <Text style={{color: 'black', fontSize: 14,textAlign:'center'}}>
-                    {items[0].date}
-                  </Text>
-
-                  <View style={{paddingHorizontal:14,paddingVertical:6,}}>
-                    <Text style={{fontWeight: 'bold',textAlign:'center', color : "black", fontSize : 18}}>
-                      {items[0].labelValue}
-                    </Text>
-                  </View>
-                </View>
-              );
+              const currentItem = items[0];
+              if (pointData?.labelValue !== currentItem.labelValue) {
+                setPointData(currentItem);
+              }
             },
           }}
         />
@@ -317,8 +307,8 @@ export const Stats = ({ stats, display, marketHistory }) => {
   // SceneMap: Route'ları eşleştirir
   const renderScene = SceneMap({
     first: SezonlukToplam,
-    second: SecondRoute,
-    thirt : ThirthRoute,
+    second: KariyerIstatistikleri,
+    thirt : MarketDeğeri,
   });
 
   const routes = [

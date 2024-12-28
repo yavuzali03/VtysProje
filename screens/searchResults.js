@@ -19,7 +19,7 @@ export const SearchResults = ({route }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://44.195.206.105/players/by-name?name=${searchValue}`,
+          `http://44.195.206.105/live-search?query=${searchValue}`,
         );
         const json = await response.json();
         setPlayersData(json);

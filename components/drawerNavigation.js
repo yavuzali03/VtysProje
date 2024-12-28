@@ -1,8 +1,8 @@
 import {StackNavigator} from "./stackNavigator";
-import Icon from "react-native-vector-icons/Octicons";
-import {View, StyleSheet, Image, Text} from "react-native";
+import {View, StyleSheet, Text, Image} from 'react-native';
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItem} from "@react-navigation/drawer";
-import {useNavigation} from "@react-navigation/native";
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const DrawerNavigation = () => {
     const Drawer = createDrawerNavigator();
@@ -12,6 +12,9 @@ export const DrawerNavigation = () => {
             screenOptions={{
                 drawerType : 'front',
                 drawerStyle : {backgroundColor : "#1E2739"},
+              drawerLabelStyle: {
+                color: 'white',
+              },
             }}
             drawerContent = {(props) => <CategoryList {...props} />}
         >
@@ -22,65 +25,90 @@ export const DrawerNavigation = () => {
 
 
 const CategoryList = (props) => {
+    const { navigation} = props;
 
-    const navigation = useNavigation();
+    return (
+      <DrawerContentScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View style={{ flex: 1 }}>
+              {/* Logo Bölümü */}
+              <View style={{ width: '100%', height: 80, justifyContent: 'center', alignItems: 'center' , padding : 30}}>
+                  <Image source={require("../assets/logogenis.png")} resizeMode={"contain"} style={{width: '100%', height: 80,}}></Image>
+              </View>
 
-    return(
-        <DrawerContentScrollView contentContainerStyle={{flexGrow: 1}}>
-            <View style={{flex: 1}}>
+              {/* DrawerItem'lar */}
+              <DrawerItem
+                icon={() => (
+                  <MaterialCommunityIcons
+                    name="home"
+                    color={'#F4F6F4'}
+                    size={32}
+                  />
+                )}
+                label="Anasayfa"
+                labelStyle={{
+                    ...styles.labelText,
+                    color :'#F4F6F4',
+                }}
+                onPress={() => navigation.navigate('home')}
+              />
 
-                <View style={{width : "100%" , height : 80 , backgroundColor : "green" , justifyContent : "center" , alignItems : "center"}}>
-                    <Text style={{color : "white" , fontSize : 32, fontWeight : "bold"}}>LOGO</Text>
-                </View>
+              <DrawerItem
+                icon={() => (
+                  <MaterialCommunityIcons
+                    name="account-filter"
+                    color={'#F4F6F4'}
+                    size={32}
+                  />
+                )}
+                label="Futbolcu ara"
+                labelStyle={{
+                    ...styles.labelText,
+                    color:'#F4F6F4',
+                }}
+                onPress={() => navigation.navigate('filterScreen')}
+              />
 
-                <DrawerItem
+              <DrawerItem
+                icon={() => (
+                  <MaterialCommunityIcons
+                    name="account"
+                    color={'#F4F6F4'}
+                    size={32}
+                  />
+                )}
+                label="Profil"
+                labelStyle={{
+                    ...styles.labelText,
+                    color: '#F4F6F4',
+                }}
+                onPress={() => navigation.navigate('profile')}
+              />
 
-                    icon={() => <Icon name={"home"} color={"#F4F6F4"} size={32}/>}
-                    labelStyle={styles.labelText}
-                    label={"Anasayfa"}
-
-                />
-
-                <DrawerItem
-                    onPress={()=>navigation.navigate("filterScreen")}
-                    icon={() => <Image source={require("../assets/futbolcu.png")} width={36} height={36}></Image>}
-                    labelStyle={styles.labelText}
-                    label={"Futbolcu ara"}
-
-                />
-
-                <DrawerItem
-
-                    icon={() => <Icon name={"person"} color={"#F4F6F4"} size={24}/>}
-                    labelStyle={styles.labelText}
-                    label={"Profil"}
-
-                />
-
-                <DrawerItem
-
-                    icon={() => <Icon name={"gear"} color={"#F4F6F4"} size={24}/>}
-                    labelStyle={styles.labelText}
-                    label={"Ayarlar"}
-
-                />
-
-            </View>
-        </DrawerContentScrollView>
-
+              <DrawerItem
+                icon={() => (
+                  <MaterialCommunityIcons
+                    name="cog"
+                    color={'#F4F6F4'}
+                    size={24}
+                  />
+                )}
+                label="Ayarlar"
+                labelStyle={{
+                    ...styles.labelText,
+                    color: '#F4F6F4',
+                }}
+                onPress={() => navigation.navigate('settings')}
+              />
+          </View>
+      </DrawerContentScrollView>
     );
 };
 
 const styles = StyleSheet.create({
-    labelText : {
-        color : "#F4F6F4",
-        fontSize : 20,
-        fontFamily : "Montserrat-Regular",
-        marginStart : -15,
-    },
-    text : {
-        color : "#F4F6F4",
-        fontSize : 16 ,
-        fontFamily : "Montserrat-Regular",
+    labelText: {
+        color: '#F4F6F4',
+        fontSize: 20,
+        fontFamily: 'Montserrat-Regular',
+        marginStart: -15,
     },
 });
