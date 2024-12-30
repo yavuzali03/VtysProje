@@ -1,5 +1,6 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   Image,
   ScrollView,
@@ -23,9 +24,9 @@ export const Details = ({route}) => {
   const [loading, setLoading] = useState(true);
   const [isDetailsPressed, setIsDetailsPressed] = useState(false);
   const [analysisData, setAnalysisData] = useState(null);
+  const [analysisLoading, setAnalysisLoading] = useState(false);
 
   const positions = new PositionValue().positions;
-
   useEffect(() => {
     PlayerData(id , setPlayerData , setLoading);
   }, [id]);
@@ -36,6 +37,7 @@ export const Details = ({route}) => {
   }
 
   const fetchAnalysis = async () => {
+    setAnalysisLoading(true);
     try {
       const response = await fetch(
         `http://44.195.206.105/player/analyze-player/${id}`,
@@ -44,6 +46,8 @@ export const Details = ({route}) => {
       setAnalysisData(json); // Store analysis data
     } catch (error) {
       console.error(error);
+    }finally {
+      setAnalysisLoading(false);
     }
   };
 
@@ -206,9 +210,12 @@ export const Details = ({route}) => {
               fontSize: width * 0.05,
               paddingRight: 5,
             }}>
-            Oyuncuyu Analiz Et
+            {analysisLoading ? "Oyuncu analiz ediliyor" : "Oyuncuyu analiz et"}
           </Text>
-          <Icon name="chart-line" color="white" size={20} />
+          {//
+            analysisLoading ? (<ActivityIndicator size={24} color="white" />) : (<Icon name="chart-line" color="white" size={20} />)
+          }
+
         </TouchableOpacity>
 
         {analysisData && (

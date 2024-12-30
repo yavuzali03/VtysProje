@@ -1,5 +1,6 @@
 
 export const PlayerData = async (id, setPlayerData, setLoading) => {
+  setLoading(true);
   try {
     const response = await fetch(`http://44.195.206.105/players/by-id?id=${id}`);
     const json = await response.json();

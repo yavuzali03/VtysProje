@@ -1,5 +1,6 @@
 
 export const SearchResultsData = async (searchValue, setPlayersData, setLoading) => {
+  setLoading(true);
   try {
     const response = await fetch(`http://44.195.206.105/live-search?query=${searchValue}`);
     const json = await response.json();

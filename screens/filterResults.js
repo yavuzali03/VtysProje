@@ -9,7 +9,6 @@ export const FilterResults = ({ route }) => {
 
   const filterResultArray = Object.values(filterResult);
 
-  const navigation = useNavigation();
   // filterResult'ın boş olup olmadığını kontrol ediyoruz
   if (!filterResult || filterResult.length === 0) {
     return (
