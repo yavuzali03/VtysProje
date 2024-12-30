@@ -14,6 +14,11 @@ import {SearchBar} from '../components/searchBar';
 import {Stats} from '../components/stats';
 import {PositionValue} from '../data/positionValue';
 import LoadingScreen from './loadingScreen';
+import {PositionValue} from '../data/positionValue';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import {Stats} from '../components/stats';
+import {PlayerData} from '../api/playerData';
+
 
 export const Details = ({route}) => {
   const {id} = route.params;
@@ -25,21 +30,9 @@ export const Details = ({route}) => {
   const positions = new PositionValue().positions;
 
   useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `http://44.195.206.105/players/by-id?id=${id}`,
-        );
-        const json = await response.json();
-        setPlayerData(json);
-      } catch (error) {
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+    PlayerData(id , setPlayerData , setLoading);
+  }, [id]);
+
 
   if (loading) {
     return <LoadingScreen />;

@@ -26,7 +26,7 @@ export const FilterResults = ({ route }) => {
 
       <FlatList
         showsHorizontalScrollIndicator={false}
-        data={filterResultArray.slice(0,20)}
+        data={filterResultArray}
         keyExtractor={(item) => item.profile.id}
         renderItem={({item})=>(
             <PlayerCard name={item.profile.name} club={item.profile.club.name} imageUrl={item.profile.imageURL} marketValue={item.market_value.marketValue} id={item.profile.id}></PlayerCard>
