@@ -4,24 +4,25 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  Text, Touchable, TouchableOpacity,
+  Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {SearchBar} from '../components/searchBar';
-import LoadingScreen from './loadingScreen';
-import {PositionValue} from '../data/positionValue';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {SearchBar} from '../components/searchBar';
 import {Stats} from '../components/stats';
+import {PositionValue} from '../data/positionValue';
+import LoadingScreen from './loadingScreen';
 
 export const Details = ({route}) => {
   const {id} = route.params;
   const [playerData, setPlayerData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isDetailsPressed , setIsDetailsPressed] = useState(false);
+  const [isDetailsPressed, setIsDetailsPressed] = useState(false);
+  const [analysisData, setAnalysisData] = useState(null);
 
   const positions = new PositionValue().positions;
-
 
   useEffect(() => {
     setLoading(true);
@@ -40,10 +41,22 @@ export const Details = ({route}) => {
     fetchData();
   }, []);
 
-
   if (loading) {
     return <LoadingScreen />;
   }
+
+  const fetchAnalysis = async () => {
+    try {
+      const response = await fetch(
+        `http://44.195.206.105/player/analyze-player/${id}`,
+      );
+      const json = await response.json();
+      setAnalysisData(json); // Store analysis data
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const position =
     positions.find(item => item.value === playerData.profile.position.main)
       ?.label || 'Bilinmiyor';
@@ -51,7 +64,7 @@ export const Details = ({route}) => {
   const foot = playerData.profile.foot === 'right' ? 'sağ' : 'sol';
 
   return (
-    <ScrollView style={{flex : 1 ,backgroundColor: '#1B212E'}}>
+    <ScrollView style={{flex: 1, backgroundColor: '#1B212E'}}>
       <View
         style={{
           flex: 1,
@@ -100,7 +113,6 @@ export const Details = ({route}) => {
             </Text>
           </View>
         </LinearGradient>
-
 
         <View style={[styles.borderView, {height: width * 0.3}]}>
           <View style={[styles.insideView, {height: width * 0.285}]}>
@@ -186,11 +198,114 @@ export const Details = ({route}) => {
           </View>
         </View>
 
-        <TouchableOpacity style={{flexDirection : "row",justifyContent : "center" , alignItems : "center" , width : width*0.4, marginBottom : 20}} onPress={() => setIsDetailsPressed(!isDetailsPressed)}>
-          <Text style={{color : "white" , fontSize : width*0.05,paddingRight : 5}}>{isDetailsPressed ? "İstatistikleri gizle" : "İstatistikleri göster"}</Text>
-          <Icon name={isDetailsPressed ? "angle-up" : "angle-down"} color={"white"} size={20}></Icon>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: width * 0.6,
+            marginBottom: 10,
+            backgroundColor: '#15ae53',
+            padding: 10,
+            borderRadius: 10,
+          }}
+          onPress={fetchAnalysis}>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: width * 0.05,
+              paddingRight: 5,
+            }}>
+            Oyuncuyu Analiz Et
+          </Text>
+          <Icon name="chart-line" color="white" size={20} />
         </TouchableOpacity>
-        <Stats display={isDetailsPressed} stats={playerData.stats.stats} marketHistory={playerData.market_value.marketValueHistory}></Stats>
+
+        {analysisData && (
+          <View
+            style={{
+              marginTop: 20,
+              padding: 15,
+              backgroundColor: '#1E2739',
+              borderRadius: 10,
+              width: width * 0.9,
+            }}>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 18,
+                fontWeight: 'bold',
+                marginBottom: 10,
+              }}>
+              Analiz Sonuçları:
+            </Text>
+            {analysisData.data
+              ?.split('\n\n') // Split text into sections
+              .map((section, index) => {
+                const boldMatch = section.match(/\*\*(.*?)\*\*/); // Match bold text pattern
+                if (boldMatch) {
+                  const boldText = boldMatch[1]; // Extract the bolded text
+                  const remainingText = section
+                    .replace(/\*\*(.*?)\*\*/, '')
+                    .trim(); // Remove the bold text
+                  return (
+                    <View key={index} style={{marginBottom: 10}}>
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontWeight: 'bold',
+                          fontSize: 16,
+                        }}>
+                        {boldText}
+                      </Text>
+                      <Text
+                        style={{color: 'white', marginTop: 5, lineHeight: 22}}>
+                        {remainingText}
+                      </Text>
+                    </View>
+                  );
+                } else {
+                  return (
+                    <Text
+                      key={index}
+                      style={{
+                        color: 'white',
+                        marginTop: 5, // Small top margin for separation
+                        marginBottom: 10, // Ensure spacing between paragraphs
+                        lineHeight: 22,
+                      }}>
+                      {section.trim()}
+                    </Text>
+                  );
+                }
+              })}
+          </View>
+        )}
+
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: width * 0.4,
+            marginBottom: 20,
+          }}
+          onPress={() => setIsDetailsPressed(!isDetailsPressed)}>
+          <Text
+            style={{color: 'white', fontSize: width * 0.05, paddingRight: 5}}>
+            {isDetailsPressed
+              ? 'İstatistikleri gizle'
+              : 'İstatistikleri göster'}
+          </Text>
+          <Icon
+            name={isDetailsPressed ? 'angle-up' : 'angle-down'}
+            color={'white'}
+            size={20}></Icon>
+        </TouchableOpacity>
+        <Stats
+          display={isDetailsPressed}
+          stats={playerData.stats.stats}
+          marketHistory={playerData.market_value.marketValueHistory}></Stats>
       </View>
     </ScrollView>
   );
@@ -210,14 +325,14 @@ const styles = StyleSheet.create({
   playerName: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: width*0.07,
-    maxWidth: width*0.4,
+    fontSize: width * 0.07,
+    maxWidth: width * 0.4,
   },
-  shirtNumber :{
+  shirtNumber: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: width*0.08,
-    maxWidth: width*0.4
+    fontSize: width * 0.08,
+    maxWidth: width * 0.4,
   },
   borderView: {
     backgroundColor: '#1ef876',
