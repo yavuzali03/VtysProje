@@ -11,23 +11,17 @@ import {
 } from 'react-native';
 import {SearchBar} from '../components/searchBar';
 import {useEffect, useState} from 'react';
-import Carousel from 'react-native-reanimated-carousel';
 import {useNavigation} from '@react-navigation/native';
+import {HomeScreenData} from '../api/homeScreenData';
 
 
 export const HomeScreen = () => {
 
   const [topPlayer, setTopPlayer] = useState([]);
   const navigation = useNavigation();
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://44.195.206.105/players/top-players");
-        const data = await response.json();
-        setTopPlayer(data);
-      }catch {}
-    };
-    fetchData();
+    HomeScreenData(setTopPlayer);
   }, []);
 
   const renderItem = ({ item }) => (

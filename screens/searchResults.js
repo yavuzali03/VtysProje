@@ -4,9 +4,10 @@ import {PlayerCard} from '../components/playerCard';
 import {useNavigation} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
 import LoadingScreen from './loadingScreen';
+import {SearchResultsData} from '../api/searchResultsData';
 
 
-export const SearchResults = ({route }) => {
+export const SearchResults = ({route}) => {
 
   const {searchValue} = route.params;
 
@@ -15,20 +16,7 @@ export const SearchResults = ({route }) => {
   const [playersData, setPlayersData] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `http://44.195.206.105/live-search?query=${searchValue}`,
-        );
-        const json = await response.json();
-        setPlayersData(json);
-      } catch (error) {
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+    SearchResultsData(searchValue,setPlayersData,setLoading);
   }, [searchValue]);
 
   if (loading) {
