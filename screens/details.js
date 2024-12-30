@@ -12,11 +12,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {SearchBar} from '../components/searchBar';
 import {Stats} from '../components/stats';
-import {PositionValue} from '../data/positionValue';
 import LoadingScreen from './loadingScreen';
 import {PositionValue} from '../data/positionValue';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import {Stats} from '../components/stats';
 import {PlayerData} from '../api/playerData';
 
 
