@@ -16,6 +16,7 @@ import {Stats} from '../components/stats';
 import LoadingScreen from './loadingScreen';
 import {PositionValue} from '../data/positionValue';
 import {PlayerData} from '../api/playerData';
+import {FootValue} from '../data/footValue';
 
 
 export const Details = ({route}) => {
@@ -27,10 +28,11 @@ export const Details = ({route}) => {
   const [analysisLoading, setAnalysisLoading] = useState(false);
 
   const positions = new PositionValue().positions;
+  const foots = new FootValue().foots;
+
   useEffect(() => {
     PlayerData(id , setPlayerData , setLoading);
   }, [id]);
-
 
   if (loading) {
     return <LoadingScreen />;
@@ -55,7 +57,7 @@ export const Details = ({route}) => {
     positions.find(item => item.value === playerData.profile.position.main)
       ?.label || 'Bilinmiyor';
 
-  const foot = playerData.profile.foot === 'right' ? 'sağ' : 'sol';
+  const foot = foots.find(item => item.value === playerData.profile.foot)?.label || 'Bilinmiyor';
 
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#1B212E'}}>

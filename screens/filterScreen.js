@@ -49,7 +49,7 @@ export const FilterScreen = () => {
   const nationality = new CountryValue().country;
 
   const positions = new PositionValue().positions;
-  const foot = new FootValue().foot;
+  const foot = new FootValue().foots;
 
 
   const baseUrl = 'http://44.195.206.105/players/by_filters';

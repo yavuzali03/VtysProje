@@ -37,6 +37,7 @@ export const PlayerCard = ({id,name, club , marketValue , imageUrl}) => {
       </TouchableOpacity>
     </View>
   );
+
 };
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
         paddingStart : 5,
     },
     playerName : {
-        color: 'white', fontWeight: 'bold', fontSize: 24,
+        color: 'white', fontWeight: 'bold', fontSize: 24, maxWidth : width*0.6,
     },
     playerClub : {
         color: 'white', fontWeight: 'normal', fontSize: 18,

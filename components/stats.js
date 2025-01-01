@@ -240,8 +240,9 @@ export const Stats = ({ stats, display, marketHistory }) => {
       <View
         style={styles.routeContainer }>
 
-        <View style={{ marginTop : 15, marginBottom : 15,flexDirection : "row",backgroundColor : "white" , width : width*0.4 , height : width*0.2 , borderRadius : width*0.05 , justifyContent : "center" , alignItems: "center"}}>
-          <Image source={{uri : `https://tmssl.akamaized.net//images/wappen/head/${pointData.clubId}.png`}} resizeMode={"contain"}  style={{width : 50 , height : 50}}></Image>
+        <View style={{marginTop : 15, marginBottom : 15,flexDirection : "row",backgroundColor : "white" , width : width*0.4 , height : width*0.2 , borderRadius : width*0.05 , justifyContent : "flex-start" , alignItems: "center"}}>
+          <Image source={{uri : `https://tmssl.akamaized.net//images/wappen/head/${pointData.clubId}.png`}} resizeMode={"contain"}  style={{width : 50 , height : 50 ,marginRight : 5 ,marginLeft : 5
+          }}></Image>
 
           <View>
             <Text style={{color: 'black', fontSize: 14,textAlign:'center'}}>{pointData.date}</Text>
@@ -274,6 +275,7 @@ export const Stats = ({ stats, display, marketHistory }) => {
           yAxisTextStyle={{color: 'gray'}}
           yAxisSide='right'
           xAxisColor="lightgray"
+          yAxisLabelWidth={50}
           formatYLabel={(value) => {
             if (value >= 1000000) {
               return `${(value / 1000000).toFixed(1)}M`;

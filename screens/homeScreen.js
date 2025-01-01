@@ -13,15 +13,16 @@ import {SearchBar} from '../components/searchBar';
 import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {HomeScreenData} from '../api/homeScreenData';
+import LoadingScreen from './loadingScreen';
 
 
 export const HomeScreen = () => {
 
   const [topPlayer, setTopPlayer] = useState([]);
   const navigation = useNavigation();
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    HomeScreenData(setTopPlayer);
+    HomeScreenData(setTopPlayer , setLoading);
   }, []);
 
   const renderItem = ({ item }) => (
@@ -30,7 +31,11 @@ export const HomeScreen = () => {
     </View>
   );
 
-  console.log(topPlayer.image_url);
+  if (loading) {
+    return (
+      <LoadingScreen/>
+    );
+  }
 
   return (
     <View style={{flex: 1, backgroundColor: '#1B212E'}}>
@@ -46,15 +51,18 @@ export const HomeScreen = () => {
               <Image source={require("../assets/background.png")} style={[styles.image]}></Image>
               <Image
                 source={{uri: topPlayer.image_url}} b
-                style={{width: width*0.9, height: width*0.45, resizeMode : "strech" , position : "absolute" , opacity : 0.4}}></Image>
+                style={{width: width*0.8, height: width*0.45, resizeMode : "strech" , position : "absolute" , opacity : 0.4}}></Image>
               <Image
                 source={{uri: topPlayer.image_url}}
                 style={styles.image}></Image>
             </View>
+              <View style={{width : "100%",height : width*0.25 ,justifyContent: "center", alignItems: "center" ,}}>
 
-            <Text style={{color : "white"}}>En Çok Ziyaret Edilen Oyuncu</Text>
-            <Text style={{fontStyle : "bold" , fontSize : 24 , color : "white"}}>{topPlayer.player_name}</Text>
-          </View>
+                <Text style={{color : "white"}}>En Çok Ziyaret Edilen Oyuncu</Text>
+                <Text style={{fontWeight : "bold" , fontSize : 30 , color : "white"}}>{topPlayer.player_name}</Text>
+              </View>
+
+           </View>
 
         </TouchableOpacity>
 
