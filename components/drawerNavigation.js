@@ -68,7 +68,8 @@ const CategoryList = (props) => {
                 onPress={() => navigation.navigate('filterScreen')}
               />
 
-              <DrawerItem
+            {/*
+            <DrawerItem
                 icon={() => (
                   <MaterialCommunityIcons
                     name="account"
@@ -99,6 +100,7 @@ const CategoryList = (props) => {
                 }}
                 onPress={() => navigation.navigate('settings')}
               />
+              */}
           </View>
       </DrawerContentScrollView>
     );

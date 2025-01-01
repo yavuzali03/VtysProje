@@ -19,10 +19,13 @@ import LoadingScreen from './loadingScreen';
 export const HomeScreen = () => {
 
   const [topPlayer, setTopPlayer] = useState([]);
+  const [mostLikedPlayer, setMostLikedPlayer] = useState([]);
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    HomeScreenData(setTopPlayer , setLoading);
+    HomeScreenData.getTopPlayerData(setTopPlayer , setLoading);
+    HomeScreenData.getMostLikedPlayerData(setMostLikedPlayer);
   }, []);
 
   const renderItem = ({ item }) => (
@@ -43,28 +46,53 @@ export const HomeScreen = () => {
       <ScrollView>
         <View style={styles.container}>
 
-        <TouchableOpacity onPress={() => navigation.navigate("details" , {id : topPlayer.player_id})}>
+        <TouchableOpacity
+          style={{marginBottom : 20}}
+          onPress={() => navigation.navigate("details" , {id : topPlayer.player_id})}>
 
           <View style={styles.itemContainer}>
 
             <View style={[styles.itemContainer , {height: width*0.45 }]}>
-              <Image source={require("../assets/background.png")} style={[styles.image]}></Image>
+              <Image source={require("../assets/background.png")} style={styles.image}></Image>
               <Image
                 source={{uri: topPlayer.image_url}} b
-                style={{width: width*0.8, height: width*0.45, resizeMode : "strech" , position : "absolute" , opacity : 0.4}}></Image>
+                style={styles.playerBackground}></Image>
               <Image
                 source={{uri: topPlayer.image_url}}
-                style={styles.image}></Image>
+                style={styles.image}/>
             </View>
-              <View style={{width : "100%",height : width*0.25 ,justifyContent: "center", alignItems: "center" ,}}>
+              <View style={styles.textContainer}>
 
-                <Text style={{color : "white"}}>En Çok Ziyaret Edilen Oyuncu</Text>
-                <Text style={{fontWeight : "bold" , fontSize : 30 , color : "white"}}>{topPlayer.player_name}</Text>
+                <Text style={styles.labelText}>En Çok Ziyaret Edilen Oyuncu</Text>
+                <Text style={styles.playerName}>{topPlayer.player_name}</Text>
               </View>
 
            </View>
 
         </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate("details" , {id : mostLikedPlayer.player_id})}>
+
+            <View style={styles.itemContainer}>
+
+              <View style={[styles.itemContainer , {height: width*0.45 }]}>
+                <Image source={require("../assets/background.png")} style={styles.image}></Image>
+                <Image
+                  source={{uri: mostLikedPlayer.image_url}} b
+                  style={styles.playerBackground}></Image>
+                <Image
+                  source={{uri: mostLikedPlayer.image_url}}
+                  style={styles.image}/>
+              </View>
+              <View style={styles.textContainer}>
+
+                <Text style={styles.labelText}>En Çok Beğenilen Oyuncu</Text>
+                <Text style={styles.playerName}>{mostLikedPlayer.player_name}</Text>
+              </View>
+
+            </View>
+
+          </TouchableOpacity>
 
         {/*
           <Carousel
@@ -103,4 +131,25 @@ const styles = StyleSheet.create({
     height: width*0.7,
     borderRadius : 20
   },
+  labelText : {
+    color : "white"
+  },
+  playerName : {
+    fontWeight : "bold" ,
+    fontSize : 30 ,
+    color : "white"
+  },
+  textContainer: {
+    width : "100%",
+    height : width*0.25 ,
+    justifyContent: "center",
+    alignItems: "center" ,
+  },
+  playerBackground : {
+    width: width*0.8,
+    height: width*0.45,
+    resizeMode : "strech" ,
+    position : "absolute" ,
+    opacity : 0.4
+  }
 });
