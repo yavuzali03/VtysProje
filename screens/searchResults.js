@@ -24,7 +24,6 @@ export const SearchResults = ({route}) => {
       <LoadingScreen></LoadingScreen>
     )
   }
-    console.log(playersData);
   if (!playersData || playersData.length === 0 || playersData.hasOwnProperty("error") || Object.keys(playersData).length === 0) {
     return (
       <View

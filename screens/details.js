@@ -17,6 +17,7 @@ import LoadingScreen from './loadingScreen';
 import {PositionValue} from '../data/positionValue';
 import {PlayerData} from '../api/playerData';
 import {FootValue} from '../data/footValue';
+import {CommentContainer} from '../components/commentContainer';
 
 
 export const Details = ({route}) => {
@@ -26,9 +27,12 @@ export const Details = ({route}) => {
   const [isDetailsPressed, setIsDetailsPressed] = useState(false);
   const [analysisData, setAnalysisData] = useState(null);
   const [analysisLoading, setAnalysisLoading] = useState(false);
+  const [isCommentsPressed, setIsCommentsPressed] = useState(false);
+
 
   const positions = new PositionValue().positions;
   const foots = new FootValue().foots;
+
 
   useEffect(() => {
     PlayerData(id , setPlayerData , setLoading);
@@ -53,10 +57,7 @@ export const Details = ({route}) => {
     }
   };
 
-  const position =
-    positions.find(item => item.value === playerData.profile.position.main)
-      ?.label || 'Bilinmiyor';
-
+  const position = positions.find(item => item.value === playerData.profile.position.main)?.label || 'Bilinmiyor';
   const foot = foots.find(item => item.value === playerData.profile.foot)?.label || 'Bilinmiyor';
 
   return (
@@ -280,18 +281,17 @@ export const Details = ({route}) => {
               })}
           </View>
         )}
-
+        <View style={{flexDirection : "row" , justifyContent: "space-evenly" , alignItems: 'center' , width : "100%"}}>
         <TouchableOpacity
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            width: width * 0.4,
             marginBottom: 20,
           }}
           onPress={() => setIsDetailsPressed(!isDetailsPressed)}>
           <Text
-            style={{color: 'white', fontSize: width * 0.05, paddingRight: 5}}>
+            style={{color: 'white', fontSize: width * 0.04, paddingRight: 5}}>
             {isDetailsPressed
               ? 'İstatistikleri gizle'
               : 'İstatistikleri göster'}
@@ -301,10 +301,32 @@ export const Details = ({route}) => {
             color={'white'}
             size={20}></Icon>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 20,
+          }}
+          onPress={() => setIsCommentsPressed(!isCommentsPressed)}>
+          <Text
+            style={{color: 'white', fontSize: width * 0.04, paddingRight: 5}}>
+            {isCommentsPressed
+              ? 'Yorumları gizle'
+              : 'Yorumları göster'}
+          </Text>
+          <Icon
+            name={isCommentsPressed ? 'angle-up' : 'angle-down'}
+            color={'white'}
+            size={20}></Icon>
+        </TouchableOpacity>
+        </View>
         <Stats
           display={isDetailsPressed}
           stats={playerData.stats.stats}
           marketHistory={playerData.market_value.marketValueHistory}></Stats>
+        <CommentContainer id={id} display={isCommentsPressed} ></CommentContainer>
       </View>
     </ScrollView>
   );

@@ -235,7 +235,6 @@ export const Stats = ({ stats, display, marketHistory }) => {
     const chartMaxValue = maxValue * 1.2;
     const [pointData , setPointData] = useState([]);
 
-    console.log(pointData);
     return(
       <View
         style={styles.routeContainer }>

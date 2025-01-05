@@ -8,12 +8,18 @@ export const FilterResults = ({ route }) => {
   const { filterResult } = route.params; // "filterResult" parametresi
 
   const filterResultArray = Object.values(filterResult);
-
   // filterResult'ın boş olup olmadığını kontrol ediyoruz
-  if (!filterResult || filterResult.length === 0) {
+  if (!filterResult || filterResult.length === 0 || !filterResult.hasOwnProperty("error")) {
     return (
-      <View style={{ flex: 1, backgroundColor: "#1B212E", alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ color: "white" }}>Sonuç bulunamadı.</Text>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#1B212E',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}>
+        <SearchBar></SearchBar>
+        <Text style={styles.text}>Sonuç bulunamadı.</Text>
       </View>
     );
   }

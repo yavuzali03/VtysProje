@@ -14,7 +14,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import {FilterCard} from "../components/filterCard";
 import {Dropdown} from 'react-native-element-dropdown';
 import LoadingScreen from './loadingScreen';
-import {enableExperimentalWebImplementation} from 'react-native-gesture-handler';
 import {PositionValue} from '../data/positionValue';
 import {FootValue} from '../data/footValue';
 import {CountryValue} from '../data/countryValue';
