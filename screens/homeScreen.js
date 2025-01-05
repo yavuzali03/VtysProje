@@ -47,7 +47,7 @@ export const HomeScreen = () => {
         <View style={styles.container}>
 
         <TouchableOpacity
-          style={{marginBottom : 20}}
+          style={{marginBottom : 20,marginTop:width*0.14,}}
           onPress={() => navigation.navigate("details" , {id : topPlayer.player_id})}>
 
           <View style={styles.itemContainer}>
