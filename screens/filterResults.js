@@ -7,9 +7,10 @@ import {useNavigation} from '@react-navigation/native';
 export const FilterResults = ({ route }) => {
   const { filterResult } = route.params; // "filterResult" parametresi
 
+  console.log(filterResult);
   const filterResultArray = Object.values(filterResult);
   // filterResult'ın boş olup olmadığını kontrol ediyoruz
-  if (!filterResult || filterResult.length === 0 || !filterResult.hasOwnProperty("error")) {
+  if (!filterResult || filterResult.length === 0 || filterResult.hasOwnProperty("error")) {
     return (
       <View
         style={{
@@ -18,7 +19,7 @@ export const FilterResults = ({ route }) => {
           alignItems: 'center',
           justifyContent: 'flex-start',
         }}>
-        <SearchBar></SearchBar>
+        <SearchBar icon={"chevron-left"}></SearchBar>
         <Text style={styles.text}>Sonuç bulunamadı.</Text>
       </View>
     );
@@ -27,7 +28,7 @@ export const FilterResults = ({ route }) => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#1B212E', alignItems: 'center'}}>
-      <SearchBar />
+      <SearchBar icon={"chevron-left"}/>
 
       <FlatList
         showsHorizontalScrollIndicator={false}

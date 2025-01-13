@@ -22,7 +22,7 @@ export const SearchResults = ({route}) => {
   if (loading) {
     return(
       <LoadingScreen></LoadingScreen>
-    )
+    );
   }
   if (!playersData || playersData.length === 0 || playersData.hasOwnProperty("error") || Object.keys(playersData).length === 0) {
     return (
@@ -33,7 +33,7 @@ export const SearchResults = ({route}) => {
           alignItems: 'center',
           justifyContent: 'flex-start',
         }}>
-        <SearchBar></SearchBar>
+        <SearchBar icon={"chevron-left"}></SearchBar>
         <Text style={styles.text}>Sonuç bulunamadı.</Text>
       </View>
     );
@@ -41,7 +41,7 @@ export const SearchResults = ({route}) => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#1B212E', alignItems: 'center'}}>
-      <SearchBar></SearchBar>
+      <SearchBar icon={"chevron-left"}></SearchBar>
       <FlatList
         showsHorizontalScrollIndicator={false}
         data={playersData}

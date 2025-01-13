@@ -41,8 +41,8 @@ export const HomeScreen = () => {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: '#1B212E'}}>
-      <SearchBar></SearchBar>
+    <View style={{flex: 1, backgroundColor: '#1B212E' , justifyContent: 'center' , alignItems: 'center'}}>
+      <SearchBar icon={"menu"}></SearchBar>
       <ScrollView>
         <View style={styles.container}>
 

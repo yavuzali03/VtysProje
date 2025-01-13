@@ -1,36 +1,63 @@
-import {Dimensions, FlatList, Text, View} from 'react-native';
+import {FlatList, Text, View, StyleSheet, Dimensions} from 'react-native';
 import {useEffect, useState} from 'react';
+import {PlayerComment} from '../api/playerComment';
 
 export const CommentContainer = ({id , display}) =>{
 
-    const [commentData, setCommentData] = useState(null);
+  const [commentData, setCommentData] = useState(null);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`http://44.195.206.105/player/${id}/comments`);
-        const json = await response.json();
-        setCommentData(json);
-      } catch (error) {
-        console.error('Error fetching player data:', error);
-      } ;
-    };
-    fetchData();
+    PlayerComment(id, setCommentData);
   }, []);
 
-
+  console.log(id);
   return (
-    <View style={{width : "90%" , height : 300 , display : display ? "flex" : "none" , backgroundColor: '#1E2739' , marginBottom : 20 , paddingTop : 20, paddingLeft : 15 }} >
-        <FlatList
-          data={commentData}
-          keyExtractor={(item) => item.id}
-          renderItem={({item}) => (
-            <View style={{ width : "90%", height : 50 , justifyContent : "center", alignItems: "flex-start",  paddingLeft : 5 , borderColor : "#1ef876" , borderBottomWidth : 2 , }}>
-              <Text style={{color : "white" , fontSize : 16 , fontWeight : "bold"}}>{item.user_name}</Text>
-              <Text style={{color : "white" , fontSize : 14 }}>{item.content}</Text>
+    <View style={{alignItems : "center" ,   marginBottom : width*0.2, display: display ? 'flex' : 'none', flex : 1}}>
+      <Text style={{color : "white" , fontWeight : "bold" , fontSize : 28, marginBottom : 10}}>Yorumlar</Text>
+      <View
+        style={styles.container}>
+        { commentData &&  (
+          <FlatList
+            nestedScrollEnabled={true}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            data={commentData.comments}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => (
+            <View
+              style={{
+                width: width*0.85,
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                backgroundColor : "#151b28",
+                borderRadius : 12,
+                margin : 5,
+                padding : 10,
+              }}>
+              <Text style={{color: 'white', fontSize: 16, fontWeight: 'bold'}}>
+                {item.user_name}
+              </Text>
+              <Text style={{color: 'lightgray', fontSize: 14, paddingLeft :5 }}>{item.content}</Text>
+              <Text style={{color: 'gray', fontSize: 10 , textAlign : "right" , width : "100%"}}>{item.created_at}</Text>
             </View>
-          )}>
-
-        </FlatList>
+          )}></FlatList>)
+        }
+      </View>
     </View>
+
   );
 };
+
+const width = Dimensions.get("window").width;
+const styles = StyleSheet.create({
+container: {
+  flex : 1,
+  width : width*0.9,
+  height : width*0.9,
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "#1E2739",
+  borderRadius : 20,
+  paddingTop : 5,
+  paddingBottom : 5,
+},
+});

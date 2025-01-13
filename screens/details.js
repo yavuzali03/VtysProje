@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -33,6 +33,33 @@ export const Details = ({route}) => {
   const positions = new PositionValue().positions;
   const foots = new FootValue().foots;
 
+  const scrollViewRef = useRef(null);
+
+  const autoScroll = ()=> {
+    if (isDetailsPressed === true && isCommentsPressed === false)
+    {
+      scrollViewRef.current.scrollTo({
+      y: 900,
+      animated: true,
+    });
+    }else {
+      scrollViewRef.current.scrollTo({
+        y: 350,
+        animated: true,
+      });
+    }
+  };
+
+  const commentButton = ()=>{
+    autoScroll();
+    setIsCommentsPressed(!isCommentsPressed);
+  }
+
+  const statsButton = ()=>{
+    autoScroll();
+    setIsDetailsPressed(!isDetailsPressed);
+
+  }
 
   useEffect(() => {
     PlayerData(id , setPlayerData , setLoading);
@@ -61,7 +88,7 @@ export const Details = ({route}) => {
   const foot = foots.find(item => item.value === playerData.profile.foot)?.label || 'Bilinmiyor';
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: '#1B212E'}}>
+    <ScrollView style={{flex: 1, backgroundColor: '#1B212E'}} ref={scrollViewRef}>
       <View
         style={{
           flex: 1,
@@ -69,7 +96,7 @@ export const Details = ({route}) => {
           alignItems: 'center',
           backgroundColor: '#1B212E',
         }}>
-        <SearchBar></SearchBar>
+        <SearchBar icon={"chevron-left"}></SearchBar>
         <LinearGradient
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}
@@ -289,7 +316,7 @@ export const Details = ({route}) => {
             alignItems: 'center',
             marginBottom: 20,
           }}
-          onPress={() => setIsDetailsPressed(!isDetailsPressed)}>
+          onPress={statsButton}>
           <Text
             style={{color: 'white', fontSize: width * 0.04, paddingRight: 5}}>
             {isDetailsPressed
@@ -309,7 +336,7 @@ export const Details = ({route}) => {
             alignItems: 'center',
             marginBottom: 20,
           }}
-          onPress={() => setIsCommentsPressed(!isCommentsPressed)}>
+          onPress={commentButton}>
           <Text
             style={{color: 'white', fontSize: width * 0.04, paddingRight: 5}}>
             {isCommentsPressed
@@ -326,7 +353,9 @@ export const Details = ({route}) => {
           display={isDetailsPressed}
           stats={playerData.stats.stats}
           marketHistory={playerData.market_value.marketValueHistory}></Stats>
+
         <CommentContainer id={id} display={isCommentsPressed} ></CommentContainer>
+
       </View>
     </ScrollView>
   );

@@ -127,7 +127,7 @@ export const FilterScreen = () => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#1B212E'}}>
-      <SearchBar></SearchBar>
+      <SearchBar icon={"menu"}></SearchBar>
       <ScrollView>
         <View style={styles.container}>
           <FilterCard
