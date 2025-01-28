@@ -7,6 +7,7 @@ import {
   Touchable,
   TouchableOpacity,
   Text,
+  SafeAreaView,
   ImageBackground,
 } from 'react-native';
 import {SearchBar} from '../components/searchBar';
@@ -14,6 +15,7 @@ import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {HomeScreenData} from '../api/homeScreenData';
 import LoadingScreen from './loadingScreen';
+
 
 
 export const HomeScreen = () => {
@@ -41,7 +43,7 @@ export const HomeScreen = () => {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: '#1B212E' , justifyContent: 'center' , alignItems: 'center'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#1B212E' , justifyContent: 'center' , alignItems: 'center'}}>
       <SearchBar icon={"menu"}></SearchBar>
       <ScrollView>
         <View style={styles.container}>
@@ -105,7 +107,7 @@ export const HomeScreen = () => {
         */}
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 const width = Dimensions.get('window').width;

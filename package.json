@@ -17,6 +17,7 @@
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/stack": "^6.4.1",
     "core-js": "^3.39.0",
+    "ios": "^0.0.1",
     "react": "18.3.1",
     "react-material-symbols": "^4.4.0",
     "react-native": "0.75.4",
